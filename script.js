@@ -10,6 +10,24 @@ function fmt(n)
     return toNum(n).toFixed(2);
 }
 
+function sanitizeSignedDecimal(str)
+{
+    // Allow optional leading '-', digits, optional single decimal point, digits
+    // Strip invalid chars while user types
+    if (typeof str !== "string") return "";
+    // Remove all but digits, '-', '.' then fix duplicates / misplaced signs
+    let s = str.replace(/[^0-9\-.]/g, "");
+    // Keep only first '-' at start
+    s = s.replace(/(?!^)-/g, "");
+    // Keep only first '.'
+    const firstDot = s.indexOf(".");
+    if (firstDot !== -1)
+    {
+        s = s.slice(0, firstDot + 1) + s.slice(firstDot + 1).replace(/\./g, "");
+    }
+    return s;
+}
+
 // ---------- State ----------
 const els =
 {
@@ -21,7 +39,8 @@ const els =
     addGame: document.getElementById("addGame"),
     gameList: document.getElementById("gameList"),
     ratingDisplay: document.getElementById("ratingDisplay"),
-    logList: document.getElementById("logList")
+    ratingDelta: document.getElementById("ratingDelta"),
+    toggleGoalDiffSign: document.getElementById("toggleGoalDiffSign")
 };
 
 const baseline =
@@ -51,12 +70,12 @@ function renderGames()
         const row = document.createElement("div");
         row.className = "row";
 
-        // Goal Diff dropdown (-7..7)
+        // Goal Diff dropdown (7..-7, positives first)
         const lblGD = document.createElement("label");
         lblGD.textContent = "Goal Differential";
         const selGD = document.createElement("select");
         selGD.dataset.role = "goalDiff";
-        for (let v = -7; v <= 7; v++)
+        for (let v = 7; v >= -7; v--)
         {
             const opt = document.createElement("option");
             opt.value = String(v);
@@ -72,7 +91,7 @@ function renderGames()
 
         // Schedule strength input (opponent ranking contribution)
         const lblSch = document.createElement("label");
-        lblSch.textContent = "Opp. Ranking (sched contrib)";
+        lblSch.textContent = "Opp. Ranking";
         const inpSch = document.createElement("input");
         inpSch.type = "number";
         inpSch.step = "0.01";
@@ -102,7 +121,6 @@ function renderGames()
             if (idx !== -1)
             {
                 games.splice(idx, 1);
-                log(`Removed game ${index + 1}`);
                 renderGames();
                 recalcAll();
             }
@@ -117,15 +135,6 @@ function renderGames()
         wrapper.appendChild(be);
         els.gameList.appendChild(wrapper);
     });
-}
-
-function log(text)
-{
-    const div = document.createElement("div");
-    div.className = "log-entry";
-    div.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
-    els.logList.appendChild(div);
-    els.logList.scrollTop = els.logList.scrollHeight;
 }
 
 // ---------- Calculations ----------
@@ -143,21 +152,15 @@ function computeRating(goalDiffSum, schedSum, gamesCount)
 
 function computeBreakEvenGoal(prevGD, prevSched, prevGames, schedThisGame)
 {
-    // If no previous games, use current baseline counts
     const n = prevGames;
     if (n <= 0)
     {
         return { x: 0, note: "Break-even not defined (0 prior games)" };
     }
 
-    // Ideal real-valued x* that keeps rating unchanged after this game:
-    // x* = ( (prevGD + prevSched) / n ) - schedThisGame
     const xStar = ((prevGD + prevSched) / n) - schedThisGame;
-
-    // Snap to nearest whole number goal differential
     let best = Math.round(xStar);
 
-    // Build a human-friendly note
     let note;
     if (best > 0)
     {
@@ -177,23 +180,27 @@ function computeBreakEvenGoal(prevGD, prevSched, prevGames, schedThisGame)
 
 function recalcAll()
 {
-    // Start from the current baseline inputs each time
+    // Baseline (current inputs)
+    // sanitize currentGoalDiff (text) before parsing
+    els.currentGoalDiff.value = sanitizeSignedDecimal(els.currentGoalDiff.value);
     const baseGD = toNum(els.currentGoalDiff.value);
     const baseSched = toNum(els.currentSchedule.value);
     const baseGames = Math.max(0, Math.floor(toNum(els.currentGames.value)));
+    const baselineRating = computeRating(baseGD, baseSched, baseGames);
 
+    // Running totals
     let runningGD = baseGD;
     let runningSched = baseSched;
     let runningGames = baseGames;
 
     games.forEach((g) =>
     {
-        // Compute break-even BEFORE applying this game's values
+        // Break-even BEFORE applying this game
         const be = computeBreakEvenGoal(runningGD, runningSched, runningGames, toNum(g.sched));
         g.breakEvenGoal = be.x;
         g.breakEvenNote = be.note;
 
-        // Now apply this game and compute ratingAfter
+        // Apply this game
         runningGD += toNum(g.goalDiff);
         runningSched += toNum(g.sched);
         runningGames += 1;
@@ -201,14 +208,22 @@ function recalcAll()
         g.ratingAfter = computeRating(runningGD, runningSched, runningGames);
     });
 
-    // Update overall display as rating after last game (or baseline if none)
+    // Final rating vs baseline
     const finalRating = games.length > 0
         ? games[games.length - 1].ratingAfter
-        : computeRating(baseGD, baseSched, baseGames);
+        : baselineRating;
 
+    const delta = finalRating - baselineRating;
+
+    // Update main display with sign/color
     els.ratingDisplay.textContent = fmt(finalRating);
+    els.ratingDisplay.classList.toggle("positive", delta > 0.00001);
+    els.ratingDisplay.classList.toggle("negative", delta < -0.00001);
 
-    // Update the per-game DOM (ratings + break-even note)
+    const sign = delta > 0 ? "+" : (delta < 0 ? "−" : "±");
+    document.getElementById("ratingDelta").textContent = `${sign}${fmt(Math.abs(delta))} vs current`;
+
+    // Update per-game DOM bits
     Array.from(els.gameList.querySelectorAll(".game")).forEach((node, i) =>
     {
         const span = node.querySelector(".val");
@@ -244,20 +259,44 @@ function onGameInput(ev)
         {
             games[idx][role] = toNum(input.value);
         }
-        recalcAll(); // cascades to all subsequent games
+        recalcAll();
     }
 }
 
-// Baseline button — saves current inputs as baseline (informational)
-els.setBaseline.addEventListener("click", () =>
+// Baseline control: sanitize on input for currentGoalDiff (text)
+els.currentGoalDiff.addEventListener("input", () =>
 {
-    baseline.goalDiffSum = toNum(els.currentGoalDiff.value);
-    baseline.schedSum = toNum(els.currentSchedule.value);
-    baseline.games = Math.max(0, Math.floor(toNum(els.currentGames.value)));
-    log(`Baseline set — GD=${fmt(baseline.goalDiffSum)}, Sched=${fmt(baseline.schedSum)}, Games=${baseline.games}`);
+    const pos = els.currentGoalDiff.selectionStart;
+    els.currentGoalDiff.value = sanitizeSignedDecimal(els.currentGoalDiff.value);
+    // try to preserve caret position (best-effort)
+    try
+    {
+        els.currentGoalDiff.setSelectionRange(pos, pos);
+    }
+    catch (e) {}
     recalcAll();
 });
 
+// Toggle +/- for currentGoalDiff
+els.toggleGoalDiffSign.addEventListener("click", () =>
+{
+    const v = toNum(els.currentGoalDiff.value);
+    const flipped = -v;
+    els.currentGoalDiff.value = String(flipped);
+    recalcAll();
+});
+
+// Baseline button — snapshot current inputs
+els.setBaseline.addEventListener("click", () =>
+{
+    els.currentGoalDiff.value = sanitizeSignedDecimal(els.currentGoalDiff.value);
+    baseline.goalDiffSum = toNum(els.currentGoalDiff.value);
+    baseline.schedSum = toNum(els.currentSchedule.value);
+    baseline.games = Math.max(0, Math.floor(toNum(els.currentGames.value)));
+    recalcAll();
+});
+
+// Add game
 els.addGame.addEventListener("click", () =>
 {
     games.push(
