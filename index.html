@@ -1,22 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Hockey Ranker</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <title>Hockey Ranker — Cascading Per-Game Ratings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Hockey Ranker</h1>
+    <header class="app-header">
+        <h1>Hockey Ranker</h1>
+        <p class="sub">Per‑game ratings with instant cascading what‑ifs</p>
+    </header>
 
-    <div id="inputs">
-        <label>Initial Rating: <input type="number" id="initial" value="1000"></label>
-    </div>
+    <main class="app">
+        <section id="inputs" class="card">
+            <h2>Current Stats (Baseline)</h2>
+            <div class="grid grid-4">
+                <label>Current Rating
+                    <input type="number" id="currentRating" value="89.94" step="0.01" inputmode="decimal" />
+                </label>
+                <label>Current Goal Differential (sum)
+                    <input type="number" id="currentGoalDiff" value="22" step="0.01" inputmode="decimal" />
+                </label>
+                <label>Current Schedule Strength (sum)
+                    <input type="number" id="currentSchedule" value="1597.07" step="0.01" inputmode="decimal" />
+                </label>
+                <label>Current Number of Games
+                    <input type="number" id="currentGames" value="18" step="1" inputmode="numeric" />
+                </label>
+            </div>
+            <div class="actions">
+                <button id="setBaseline" class="btn primary">Set Baseline</button>
+            </div>
+            <p class="muted small">Rating = <code>(TotalGoalDiff / TotalGames) + (TotalSchedule / TotalGames)</code></p>
+        </section>
 
-    <div id="games"></div>
+        <section id="games" class="card">
+            <div class="section-head">
+                <h2>Game Results</h2>
+                <button id="addGame" class="btn">Add Game</button>
+            </div>
+            <div id="gameList" class="stack"></div>
+        </section>
 
-    <button id="addGame">Add Game</button>
+        <section class="card highlight">
+            <h2>Updated Rating After Last Game</h2>
+            <div class="big-number" id="ratingDisplay">0.00</div>
+        </section>
 
-    <h2>Current Rating: <span id="rating">1000</span></h2>
+        <section id="log" class="card">
+            <h2>Change Log</h2>
+            <div id="logList" class="log" aria-live="polite"></div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
