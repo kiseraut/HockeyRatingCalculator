@@ -13,6 +13,12 @@
     --radius: 14px;
 }
 
+/* Fluid type scale */
+html
+{
+    font-size: clamp(14px, 1.7vw, 16px);
+}
+
 *,
 *::before,
 *::after
@@ -44,12 +50,14 @@ body
     margin: 0 0 4px 0;
     font-weight: 700;
     letter-spacing: 0.2px;
+    font-size: clamp(22px, 3vw, 28px);
 }
 
 .app-header .sub
 {
     margin: 0;
     color: var(--text-dim);
+    font-size: clamp(12px, 1.6vw, 14px);
 }
 
 .app
@@ -104,8 +112,20 @@ body
     }
 }
 
-@media (max-width: 580px)
+@media (max-width: 600px)
 {
+    .app
+    {
+        padding: 0 14px 28px 14px;
+        gap: 14px;
+    }
+
+    .card
+    {
+        padding: 14px;
+        border-radius: 12px;
+    }
+
     .grid-4
     {
         grid-template-columns: 1fr;
@@ -117,21 +137,22 @@ label
     display: grid;
     gap: 6px;
     color: var(--text-dim);
-    font-size: 14px;
+    font-size: 0.9rem;
 }
 
 input[type="number"],
 select
 {
     width: 100%;
-    padding: 10px 12px;
-    border-radius: 10px;
+    padding: 12px 14px;                /* bigger touch target */
+    border-radius: 12px;
     border: 1px solid var(--border);
     background: var(--panel-2);
     color: var(--text);
     outline: none;
-    transition: border-color .15s ease;
-    font-size: 16px;
+    transition: border-color .15s ease, background .2s ease;
+    font-size: 1rem;
+    min-height: 44px;                  /* iOS comfortable tap size */
 }
 
 /* Remove steppers for number inputs */
@@ -158,12 +179,13 @@ select:focus
     border: 1px solid var(--border);
     background: linear-gradient(180deg, #1a2336, #141c2d);
     color: var(--text);
-    padding: 10px 14px;
+    padding: 12px 16px;                /* larger touch target */
     border-radius: 12px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 1rem;
     transition: transform .06s ease, border-color .2s ease, background .2s ease;
     box-shadow: var(--shadow);
+    min-height: 44px;
 }
 
 .btn:hover
@@ -206,15 +228,32 @@ select:focus
 .row
 {
     display: grid;
-    grid-template-columns: 220px 1fr 1fr auto;
+    grid-template-columns: 260px 1fr 1fr auto;
     gap: 12px;
     align-items: center;
+}
+
+/* Stack game row on small screens */
+@media (max-width: 780px)
+{
+    .row
+    {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .row .btn
+    {
+        justify-self: start;
+        width: 100%;
+    }
 }
 
 .after
 {
     font-weight: 700;
     color: var(--brand-2);
+    font-size: 1.05rem;
 }
 
 .muted
@@ -224,13 +263,13 @@ select:focus
 
 .small
 {
-    font-size: 12px;
+    font-size: 0.85rem;
 }
 
 .big-number
 {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    font-size: 44px;
+    font-size: clamp(28px, 4.8vw, 44px);
     font-weight: 800;
     padding: 8px 2px 2px 2px;
 }
@@ -244,7 +283,7 @@ select:focus
     max-height: 280px;
     overflow: auto;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    font-size: 14px;
+    font-size: 0.9rem;
 }
 
 .log-entry
@@ -256,4 +295,13 @@ select:focus
 .log-entry:last-child
 {
     border-bottom: none;
+}
+
+/* Safe-area padding for iOS notches */
+@supports(padding:max(0px))
+{
+    body
+    {
+        padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
 }
