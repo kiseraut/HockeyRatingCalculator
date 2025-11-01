@@ -322,3 +322,96 @@ document.addEventListener("DOMContentLoaded", () =>
     renderGames();
     recalcAll();
 });
+
+(function ()
+{
+    "use strict";
+
+    const STORAGE_KEY = "hockeyRanker.baseline.v1";
+
+    const $rating   = document.getElementById("currentRating");
+    const $goalDiff = document.getElementById("currentGoalDiff");
+    const $schedule = document.getElementById("currentSchedule");
+    const $games    = document.getElementById("currentGames");
+    const $setBtn   = document.getElementById("setBaseline");
+
+    function numOrNull(value)
+    {
+        if (value === null || value === undefined)
+        {
+            return null;
+        }
+        const s = String(value).trim();
+        if (s === "")
+        {
+            return null;
+        }
+        const n = Number(s);
+        return Number.isFinite(n) ? n : null;
+    }
+
+    function readBaseline()
+    {
+        return {
+            rating:   numOrNull($rating?.value),
+            goalDiff: numOrNull($goalDiff?.value),
+            schedule: numOrNull($schedule?.value),
+            games:    numOrNull($games?.value)
+        };
+    }
+
+    function applyBaseline(b)
+    {
+        if (!b) { return; }
+        if ($rating)   { $rating.value   = b.rating   ?? ""; }
+        if ($goalDiff) { $goalDiff.value = b.goalDiff ?? ""; }
+        if ($schedule) { $schedule.value = b.schedule ?? ""; }
+        if ($games)    { $games.value    = b.games    ?? ""; }
+    }
+
+    function saveBaseline(b)
+    {
+        try
+        {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(b));
+        }
+        catch (e)
+        {
+            console.warn("Unable to save baseline:", e);
+        }
+    }
+
+    function loadBaseline()
+    {
+        try
+        {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) { return null; }
+            return JSON.parse(raw);
+        }
+        catch (e)
+        {
+            console.warn("Unable to load baseline:", e);
+            return null;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function ()
+    {
+        const baseline = loadBaseline();
+        if (baseline)
+        {
+            applyBaseline(baseline);
+        }
+    });
+
+    if ($setBtn)
+    {
+        $setBtn.addEventListener("click", function ()
+        {
+            const baseline = readBaseline();
+            saveBaseline(baseline);
+        });
+    }
+})();
+
