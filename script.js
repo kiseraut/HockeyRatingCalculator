@@ -51,7 +51,16 @@ const baseline =
 };
 
 /**
- * Each game: { id, goalDiff, sched, ratingAfter, breakEvenGoal, breakEvenNote } — all numbers except note
+ * Each game:
+ * {
+ *   id,
+ *   opponent,        // string (purely visual)
+ *   sched,           // number or "" (blank shows in input; "" counts as 0 in math)
+ *   goalDiff,        // number when chosen; null/undefined/"" means "--" and EXCLUDE from calcs
+ *   ratingAfter,     // number
+ *   breakEvenGoal,   // number
+ *   breakEvenNote    // string
+ * }
  */
 let games = [];
 let nextId = 1;
@@ -151,36 +160,64 @@ function renderGames()
         const row = document.createElement("div");
         row.className = "row";
 
-        // Goal Diff dropdown (7..-7, positives first)
-        const lblGD = document.createElement("label");
-        lblGD.textContent = "Goal Differential";
-        const selGD = document.createElement("select");
-        selGD.dataset.role = "goalDiff";
-        for (let v = 7; v >= -7; v--)
-        {
-            const opt = document.createElement("option");
-            opt.value = String(v);
-            opt.textContent = (v > 0 ? "+" : "") + v;
-            if (v === Math.round(g.goalDiff))
-            {
-                opt.selected = true;
-            }
-            selGD.appendChild(opt);
-        }
-        selGD.addEventListener("change", onGameInput);
-        lblGD.appendChild(selGD);
+        // Opponent name (NEW, first)
+        const lblOpp = document.createElement("label");
+        lblOpp.textContent = "Opponent";
+        const inpOpp = document.createElement("input");
+        inpOpp.type = "text";
+        inpOpp.placeholder = "Name";
+        inpOpp.value = g.opponent ?? "";
+        inpOpp.dataset.role = "opponent";
+        inpOpp.addEventListener("input", onGameInput);
+        lblOpp.appendChild(inpOpp);
 
-        // Schedule strength input (opponent ranking contribution)
+        // Opp. Ranking (second) — starts BLANK (not 0)
         const lblSch = document.createElement("label");
         lblSch.textContent = "Opp. Ranking";
         const inpSch = document.createElement("input");
         inpSch.type = "number";
         inpSch.step = "0.01";
-        inpSch.value = String(g.sched);
-        inpSch.dataset.role = "sched";
         inpSch.inputMode = "decimal";
+        inpSch.placeholder = "Rank";
+        // if stored as "" keep it blank; otherwise show the number
+        inpSch.value = (g.sched === "" || g.sched === null || g.sched === undefined) ? "" : String(g.sched);
+        inpSch.dataset.role = "sched";
         inpSch.addEventListener("input", onGameInput);
         lblSch.appendChild(inpSch);
+
+        // Goal Diff dropdown (third) with top "--" that EXCLUDES from calcs by default
+        const lblGD = document.createElement("label");
+        lblGD.textContent = "Goal Differential";
+        const selGD = document.createElement("select");
+        selGD.dataset.role = "goalDiff";
+
+        // Top sentinel option
+        const optNone = document.createElement("option");
+        optNone.value = "";
+        optNone.textContent = "--";
+        selGD.appendChild(optNone);
+
+        // Then numeric options 7..-7
+        for (let v = 7; v >= -7; v--)
+        {
+            const opt = document.createElement("option");
+            opt.value = String(v);
+            opt.textContent = (v > 0 ? "+" : "") + v;
+            selGD.appendChild(opt);
+        }
+
+        // Select current value (blank if null/undefined/"")
+        if (typeof g.goalDiff === "number" && Number.isFinite(g.goalDiff))
+        {
+            selGD.value = String(Math.round(g.goalDiff));
+        }
+        else
+        {
+            selGD.value = ""; // "--" selected
+        }
+
+        selGD.addEventListener("change", onGameInput);
+        lblGD.appendChild(selGD);
 
         // After rating
         const after = document.createElement("div");
@@ -208,8 +245,10 @@ function renderGames()
             }
         });
 
-        row.appendChild(lblGD);
+        // New order: Opponent -> Opp. Ranking -> Goal Differential -> After/Remove
+        row.appendChild(lblOpp);
         row.appendChild(lblSch);
+        row.appendChild(lblGD);
         row.appendChild(after);
         row.appendChild(removeBtn);
 
@@ -263,7 +302,6 @@ function computeBreakEvenGoal(prevGD, prevSched, prevGames, schedThisGame)
 function recalcAll()
 {
     // Baseline (current inputs)
-    // sanitize currentGoalDiff (text) before parsing
     els.currentGoalDiff.value = sanitizeSignedDecimal(els.currentGoalDiff.value);
     const baseGD = toNum(els.currentGoalDiff.value);
     const baseSched = toNum(els.currentSchedule.value);
@@ -277,17 +315,30 @@ function recalcAll()
 
     games.forEach((g) =>
     {
-        // Break-even BEFORE applying this game
-        const be = computeBreakEvenGoal(runningGD, runningSched, runningGames, toNum(g.sched));
-        g.breakEvenGoal = be.x;
-        g.breakEvenNote = be.note;
+        // Include only if goalDiff is a chosen number (not "--")
+        const hasGD = (typeof g.goalDiff === "number") && Number.isFinite(g.goalDiff);
 
-        // Apply this game
-        runningGD += toNum(g.goalDiff);
-        runningSched += toNum(g.sched);
-        runningGames += 1;
+        if (hasGD)
+        {
+            // Break-even BEFORE applying this included game
+            const be = computeBreakEvenGoal(runningGD, runningSched, runningGames, toNum(g.sched));
+            g.breakEvenGoal = be.x;
+            g.breakEvenNote = be.note;
 
-        g.ratingAfter = computeRating(runningGD, runningSched, runningGames);
+            // Apply this game
+            runningGD += toNum(g.goalDiff);
+            runningSched += toNum(g.sched);
+            runningGames += 1;
+
+            g.ratingAfter = computeRating(runningGD, runningSched, runningGames);
+        }
+        else
+        {
+            // Excluded from calculations: clear BE note, keep ratingAfter at current running rating
+            g.breakEvenGoal = 0;
+            g.breakEvenNote = "";
+            g.ratingAfter = computeRating(runningGD, runningSched, runningGames);
+        }
     });
 
     // Final rating vs baseline
@@ -331,18 +382,44 @@ function onGameInput(ev)
     const id = Number(wrapper?.dataset.id);
     const idx = games.findIndex(x => x.id === id);
 
-    if (idx >= 0 && (role === "goalDiff" || role === "sched"))
+    if (idx < 0)
     {
-        if (role === "goalDiff")
+        return;
+    }
+
+    if (role === "opponent")
+    {
+        games[idx].opponent = input.value;
+        saveGamesToStorage(games);
+        // no recalc needed (visual only)
+        return;
+    }
+
+    if (role === "sched")
+    {
+        // keep blank visually if empty; treat as 0 in math
+        const s = String(input.value ?? "").trim();
+        games[idx].sched = (s === "") ? "" : toNum(s);
+        recalcAll();
+        saveGamesToStorage(games);
+        return;
+    }
+
+    if (role === "goalDiff")
+    {
+        // "" => EXCLUDE ("--"), else numeric
+        const s = String(input.value ?? "");
+        if (s === "")
         {
-            games[idx][role] = parseInt(input.value, 10);
+            games[idx].goalDiff = null;
         }
         else
         {
-            games[idx][role] = toNum(input.value);
+            games[idx].goalDiff = parseInt(s, 10);
         }
         recalcAll();
         saveGamesToStorage(games);
+        return;
     }
 }
 
@@ -383,13 +460,15 @@ els.setBaseline.addEventListener("click", () =>
 });
 
 // Add game (and persist)
+// New row defaults: opponent "", sched "", goalDiff null (--> "--" by default)
 els.addGame.addEventListener("click", () =>
 {
     games.push(
     {
         id: nextId++,
-        goalDiff: 0,
-        sched: 0,
+        opponent: "",
+        sched: "",
+        goalDiff: null,
         ratingAfter: 0,
         breakEvenGoal: 0,
         breakEvenNote: ""
@@ -413,7 +492,19 @@ document.addEventListener("DOMContentLoaded", () =>
     const savedGames = loadGamesFromStorage();
     if (Array.isArray(savedGames) && savedGames.length > 0)
     {
-        games = savedGames;
+        // Back-compat: ensure new fields exist
+        games = savedGames.map(g =>
+        {
+            return {
+                id: g.id,
+                opponent: g.opponent ?? "",
+                sched: (g.sched === 0 && String(g.schedRaw) === "") ? "" : (g.sched ?? ""), // be forgiving
+                goalDiff: (typeof g.goalDiff === "number" && Number.isFinite(g.goalDiff)) ? g.goalDiff : null,
+                ratingAfter: g.ratingAfter ?? 0,
+                breakEvenGoal: g.breakEvenGoal ?? 0,
+                breakEvenNote: g.breakEvenNote ?? ""
+            };
+        });
 
         // Rebuild nextId to avoid collisions after refresh
         const maxId = games.reduce((m, g) => Math.max(m, Number(g.id) || 0), 0);
@@ -422,7 +513,7 @@ document.addEventListener("DOMContentLoaded", () =>
     else
     {
         games = [
-            { id: nextId++, goalDiff: 0, sched: 0, ratingAfter: 0, breakEvenGoal: 0, breakEvenNote: "" }
+            { id: nextId++, opponent: "", sched: "", goalDiff: null, ratingAfter: 0, breakEvenGoal: 0, breakEvenNote: "" }
         ];
     }
 
