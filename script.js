@@ -56,6 +56,87 @@ const baseline =
 let games = [];
 let nextId = 1;
 
+// ---------- Persistence (Baseline + Games) ----------
+const STORAGE_BASELINE = "hockeyRanker.baseline.v1";
+const STORAGE_GAMES    = "hockeyRanker.games.v1";
+
+function saveBaselineToStorage()
+{
+    const obj =
+    {
+        rating:   toNum(els.currentRating?.value),
+        goalDiff: toNum(els.currentGoalDiff?.value),
+        sched:    toNum(els.currentSchedule?.value),
+        games:    Math.max(0, Math.floor(toNum(els.currentGames?.value)))
+    };
+
+    try
+    {
+        localStorage.setItem(STORAGE_BASELINE, JSON.stringify(obj));
+    }
+    catch (e)
+    {
+        console.warn("Unable to save baseline:", e);
+    }
+}
+
+function loadBaselineFromStorage()
+{
+    try
+    {
+        const raw = localStorage.getItem(STORAGE_BASELINE);
+        if (!raw)
+        {
+            return null;
+        }
+        return JSON.parse(raw);
+    }
+    catch (e)
+    {
+        console.warn("Unable to load baseline:", e);
+        return null;
+    }
+}
+
+function applyBaselineToInputs(b)
+{
+    if (!b) { return; }
+    if (els.currentRating)   { els.currentRating.value   = (b.rating   ?? "").toString(); }
+    if (els.currentGoalDiff) { els.currentGoalDiff.value = (b.goalDiff ?? "").toString(); }
+    if (els.currentSchedule) { els.currentSchedule.value = (b.sched    ?? "").toString(); }
+    if (els.currentGames)    { els.currentGames.value    = (b.games    ?? "").toString(); }
+}
+
+function saveGamesToStorage(list)
+{
+    try
+    {
+        localStorage.setItem(STORAGE_GAMES, JSON.stringify(Array.isArray(list) ? list : []));
+    }
+    catch (e)
+    {
+        console.warn("Unable to save games:", e);
+    }
+}
+
+function loadGamesFromStorage()
+{
+    try
+    {
+        const raw = localStorage.getItem(STORAGE_GAMES);
+        if (!raw)
+        {
+            return [];
+        }
+        return JSON.parse(raw);
+    }
+    catch (e)
+    {
+        console.warn("Unable to load games:", e);
+        return [];
+    }
+}
+
 // ---------- Rendering ----------
 function renderGames()
 {
@@ -123,6 +204,7 @@ function renderGames()
                 games.splice(idx, 1);
                 renderGames();
                 recalcAll();
+                saveGamesToStorage(games);
             }
         });
 
@@ -260,6 +342,7 @@ function onGameInput(ev)
             games[idx][role] = toNum(input.value);
         }
         recalcAll();
+        saveGamesToStorage(games);
     }
 }
 
@@ -286,17 +369,20 @@ els.toggleGoalDiffSign.addEventListener("click", () =>
     recalcAll();
 });
 
-// Baseline button — snapshot current inputs
+// Baseline button — snapshot current inputs (and persist)
 els.setBaseline.addEventListener("click", () =>
 {
     els.currentGoalDiff.value = sanitizeSignedDecimal(els.currentGoalDiff.value);
+
     baseline.goalDiffSum = toNum(els.currentGoalDiff.value);
-    baseline.schedSum = toNum(els.currentSchedule.value);
-    baseline.games = Math.max(0, Math.floor(toNum(els.currentGames.value)));
+    baseline.schedSum    = toNum(els.currentSchedule.value);
+    baseline.games       = Math.max(0, Math.floor(toNum(els.currentGames.value)));
+
+    saveBaselineToStorage();
     recalcAll();
 });
 
-// Add game
+// Add game (and persist)
 els.addGame.addEventListener("click", () =>
 {
     games.push(
@@ -310,108 +396,36 @@ els.addGame.addEventListener("click", () =>
     });
     renderGames();
     recalcAll();
+    saveGamesToStorage(games);
 });
 
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", () =>
 {
-    games = [
-        { id: nextId++, goalDiff: 0, sched: 0, ratingAfter: 0, breakEvenGoal: 0, breakEvenNote: "" }
-    ];
+    // 1) Load baseline and apply
+    const savedBaseline = loadBaselineFromStorage();
+    if (savedBaseline)
+    {
+        applyBaselineToInputs(savedBaseline);
+    }
+
+    // 2) Load games; seed if empty
+    const savedGames = loadGamesFromStorage();
+    if (Array.isArray(savedGames) && savedGames.length > 0)
+    {
+        games = savedGames;
+
+        // Rebuild nextId to avoid collisions after refresh
+        const maxId = games.reduce((m, g) => Math.max(m, Number(g.id) || 0), 0);
+        nextId = Math.max(1, maxId + 1);
+    }
+    else
+    {
+        games = [
+            { id: nextId++, goalDiff: 0, sched: 0, ratingAfter: 0, breakEvenGoal: 0, breakEvenNote: "" }
+        ];
+    }
 
     renderGames();
     recalcAll();
 });
-
-(function ()
-{
-    "use strict";
-
-    const STORAGE_KEY = "hockeyRanker.baseline.v1";
-
-    const $rating   = document.getElementById("currentRating");
-    const $goalDiff = document.getElementById("currentGoalDiff");
-    const $schedule = document.getElementById("currentSchedule");
-    const $games    = document.getElementById("currentGames");
-    const $setBtn   = document.getElementById("setBaseline");
-
-    function numOrNull(value)
-    {
-        if (value === null || value === undefined)
-        {
-            return null;
-        }
-        const s = String(value).trim();
-        if (s === "")
-        {
-            return null;
-        }
-        const n = Number(s);
-        return Number.isFinite(n) ? n : null;
-    }
-
-    function readBaseline()
-    {
-        return {
-            rating:   numOrNull($rating?.value),
-            goalDiff: numOrNull($goalDiff?.value),
-            schedule: numOrNull($schedule?.value),
-            games:    numOrNull($games?.value)
-        };
-    }
-
-    function applyBaseline(b)
-    {
-        if (!b) { return; }
-        if ($rating)   { $rating.value   = b.rating   ?? ""; }
-        if ($goalDiff) { $goalDiff.value = b.goalDiff ?? ""; }
-        if ($schedule) { $schedule.value = b.schedule ?? ""; }
-        if ($games)    { $games.value    = b.games    ?? ""; }
-    }
-
-    function saveBaseline(b)
-    {
-        try
-        {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(b));
-        }
-        catch (e)
-        {
-            console.warn("Unable to save baseline:", e);
-        }
-    }
-
-    function loadBaseline()
-    {
-        try
-        {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (!raw) { return null; }
-            return JSON.parse(raw);
-        }
-        catch (e)
-        {
-            console.warn("Unable to load baseline:", e);
-            return null;
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", function ()
-    {
-        const baseline = loadBaseline();
-        if (baseline)
-        {
-            applyBaseline(baseline);
-        }
-    });
-
-    if ($setBtn)
-    {
-        $setBtn.addEventListener("click", function ()
-        {
-            const baseline = readBaseline();
-            saveBaseline(baseline);
-        });
-    }
-})();
-
