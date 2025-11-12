@@ -271,7 +271,7 @@ function computeRating(goalDiffSum, schedSum, gamesCount)
     return avgGD + avgSched;
 }
 
-function computeBreakEvenGoal(prevGD, prevSched, prevGames, schedThisGame)
+function computeBreakEvenGoal(prevGD, prevSched, prevGames, schedThisGame, targetRating)
 {
     const n = prevGames;
     if (n <= 0)
@@ -279,8 +279,10 @@ function computeBreakEvenGoal(prevGD, prevSched, prevGames, schedThisGame)
         return { x: 0, note: "Break-even not defined (0 prior games)" };
     }
 
-    const xStar = ((prevGD + prevSched) / n) - schedThisGame;
-    let best = Math.round(xStar);
+    const desiredTotal = targetRating * (n + 1);
+    const currentWithoutGoal = prevGD + prevSched + schedThisGame;
+    const xStar = desiredTotal - currentWithoutGoal;
+    const best = Math.ceil(xStar);
 
     let note;
     if (best > 0)
@@ -315,28 +317,36 @@ function recalcAll()
 
     games.forEach((g) =>
     {
+        const hasSchedInput = !(g.sched === "" || g.sched === null || typeof g.sched === "undefined");
+        const schedVal = hasSchedInput ? toNum(g.sched) : 0;
         // Include only if goalDiff is a chosen number (not "--")
         const hasGD = (typeof g.goalDiff === "number") && Number.isFinite(g.goalDiff);
 
-        if (hasGD)
+        if (hasSchedInput)
         {
             // Break-even BEFORE applying this included game
-            const be = computeBreakEvenGoal(runningGD, runningSched, runningGames, toNum(g.sched));
+            const be = computeBreakEvenGoal(runningGD, runningSched, runningGames, schedVal, baselineRating);
             g.breakEvenGoal = be.x;
             g.breakEvenNote = be.note;
+        }
+        else
+        {
+            g.breakEvenGoal = null;
+            g.breakEvenNote = "";
+        }
 
+        if (hasGD)
+        {
             // Apply this game
             runningGD += toNum(g.goalDiff);
-            runningSched += toNum(g.sched);
+            runningSched += schedVal;
             runningGames += 1;
 
             g.ratingAfter = computeRating(runningGD, runningSched, runningGames);
         }
         else
         {
-            // Excluded from calculations: clear BE note, keep ratingAfter at current running rating
-            g.breakEvenGoal = 0;
-            g.breakEvenNote = "";
+            // Game not yet applied: keep running totals as-is
             g.ratingAfter = computeRating(runningGD, runningSched, runningGames);
         }
     });
