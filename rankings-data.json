@@ -1,13 +1,13 @@
 {
   "source": "https://myhockeyrankings.com/rank.php?y=2025&v=125",
-  "scrapedAt": "2025-11-12T19:23:40.534Z",
-  "limit": 100,
-  "count": 100,
+  "scrapedAt": "2025-11-12T21:27:03.744Z",
+  "limit": 200,
+  "count": 200,
   "teams": [
     {
       "rank": 1,
       "team": "MN Lakers 13U AAA",
-      "rating": 95.31,
+      "rating": 95.313,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34248",
       "teamID": "34248",
       "totalGames": 22,
@@ -17,7 +17,7 @@
     {
       "rank": 2,
       "team": "Minnesota Blades 13U AAA",
-      "rating": 94.53,
+      "rating": 94.531,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37776",
       "teamID": "37776",
       "totalGames": 5,
@@ -27,7 +27,7 @@
     {
       "rank": 3,
       "team": "Mid-Fairfield Hockey Club (Elite) 13U AAA",
-      "rating": 94.39,
+      "rating": 94.392,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1408",
       "teamID": "1408",
       "totalGames": 31,
@@ -57,7 +57,7 @@
     {
       "rank": 6,
       "team": "MN Blue Ox 13U AAA",
-      "rating": 91.92,
+      "rating": 91.923,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=32599",
       "teamID": "32599",
       "totalGames": 23,
@@ -67,7 +67,7 @@
     {
       "rank": 7,
       "team": "Honeybaked 13U AAA",
-      "rating": 91.78,
+      "rating": 91.786,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1008",
       "teamID": "1008",
       "totalGames": 27,
@@ -77,7 +77,7 @@
     {
       "rank": 8,
       "team": "New Jersey Rockets (Premier) 13U AAA",
-      "rating": 91.61,
+      "rating": 91.613,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1218",
       "teamID": "1218",
       "totalGames": 34,
@@ -87,7 +87,7 @@
     {
       "rank": 9,
       "team": "MN Green Giants 13U AAA",
-      "rating": 91.38,
+      "rating": 91.384,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34246",
       "teamID": "34246",
       "totalGames": 22,
@@ -97,7 +97,7 @@
     {
       "rank": 10,
       "team": "Chicago Reapers 13U AAA",
-      "rating": 91.17,
+      "rating": 91.178,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2147",
       "teamID": "2147",
       "totalGames": 37,
@@ -117,7 +117,7 @@
     {
       "rank": 12,
       "team": "Chicago Mission 13U AAA",
-      "rating": 91.06,
+      "rating": 91.067,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1043",
       "teamID": "1043",
       "totalGames": 36,
@@ -127,7 +127,7 @@
     {
       "rank": 13,
       "team": "Nashville Jr Predators 13U AAA",
-      "rating": 90.93,
+      "rating": 90.933,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1093",
       "teamID": "1093",
       "totalGames": 32,
@@ -137,7 +137,7 @@
     {
       "rank": 14,
       "team": "LA Jr Kings 13U AAA",
-      "rating": 90.9,
+      "rating": 90.902,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=3015",
       "teamID": "3015",
       "totalGames": 20,
@@ -147,7 +147,7 @@
     {
       "rank": 15,
       "team": "Florida Alliance (Elite) 13U AAA",
-      "rating": 90.36,
+      "rating": 90.365,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=28789",
       "teamID": "28789",
       "totalGames": 28,
@@ -157,7 +157,7 @@
     {
       "rank": 16,
       "team": "MN Moose 13U AAA",
-      "rating": 90.27,
+      "rating": 90.276,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34249",
       "teamID": "34249",
       "totalGames": 20,
@@ -167,7 +167,7 @@
     {
       "rank": 17,
       "team": "Pittsburgh Penguins Elite 13U AAA",
-      "rating": 90.26,
+      "rating": 90.269,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1103",
       "teamID": "1103",
       "totalGames": 27,
@@ -177,7 +177,7 @@
     {
       "rank": 18,
       "team": "Boston Jr Eagles (Elite) 13U AAA",
-      "rating": 90.25,
+      "rating": 90.255,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1268",
       "teamID": "1268",
       "totalGames": 33,
@@ -187,7 +187,7 @@
     {
       "rank": 19,
       "team": "Top Gun (Elite) 13U AAA",
-      "rating": 90.2,
+      "rating": 90.208,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=12089",
       "teamID": "12089",
       "totalGames": 32,
@@ -197,7 +197,7 @@
     {
       "rank": 20,
       "team": "Chicago Fury 13U AAA",
-      "rating": 90.05,
+      "rating": 90.059,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1048",
       "teamID": "1048",
       "totalGames": 41,
@@ -207,7 +207,7 @@
     {
       "rank": 21,
       "team": "MN Voyageurs 13U AAA",
-      "rating": 89.97,
+      "rating": 89.974,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=32598",
       "teamID": "32598",
       "totalGames": 23,
@@ -227,7 +227,7 @@
     {
       "rank": 23,
       "team": "St Louis Blues 13U AAA",
-      "rating": 89.86,
+      "rating": 89.867,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1083",
       "teamID": "1083",
       "totalGames": 32,
@@ -237,7 +237,7 @@
     {
       "rank": 24,
       "team": "Seacoast Performance Academy 13U AAA",
-      "rating": 89.39,
+      "rating": 89.397,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1358",
       "teamID": "1358",
       "totalGames": 25,
@@ -247,7 +247,7 @@
     {
       "rank": 25,
       "team": "Dallas Stars Elite 13U AAA",
-      "rating": 89.18,
+      "rating": 89.184,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1438",
       "teamID": "1438",
       "totalGames": 30,
@@ -277,7 +277,7 @@
     {
       "rank": 28,
       "team": "Windy City Storm 13U AAA",
-      "rating": 88.73,
+      "rating": 88.736,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1058",
       "teamID": "1058",
       "totalGames": 29,
@@ -287,7 +287,7 @@
     {
       "rank": 29,
       "team": "Fox Motors 13U AAA",
-      "rating": 88.64,
+      "rating": 88.643,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=9416",
       "teamID": "9416",
       "totalGames": 25,
@@ -297,7 +297,7 @@
     {
       "rank": 30,
       "team": "Minuteman Flames (Elite) 13U AAA",
-      "rating": 88.58,
+      "rating": 88.586,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1278",
       "teamID": "1278",
       "totalGames": 32,
@@ -307,7 +307,7 @@
     {
       "rank": 31,
       "team": "Connecticut Jr Rangers (Elite) 13U AAA",
-      "rating": 88.42,
+      "rating": 88.427,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=14957",
       "teamID": "14957",
       "totalGames": 33,
@@ -317,7 +317,7 @@
     {
       "rank": 32,
       "team": "Ohio Blue Jackets 13U AAA",
-      "rating": 88.36,
+      "rating": 88.364,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1088",
       "teamID": "1088",
       "totalGames": 27,
@@ -327,7 +327,7 @@
     {
       "rank": 33,
       "team": "Washington Little Capitals 13U AAA",
-      "rating": 88.29,
+      "rating": 88.299,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1113",
       "teamID": "1113",
       "totalGames": 31,
@@ -337,7 +337,7 @@
     {
       "rank": 34,
       "team": "Oakland Jr Grizzlies 13U AAA",
-      "rating": 88.23,
+      "rating": 88.239,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1028",
       "teamID": "1028",
       "totalGames": 33,
@@ -347,7 +347,7 @@
     {
       "rank": 35,
       "team": "Anaheim Jr Ducks 13U AAA",
-      "rating": 88.23,
+      "rating": 88.232,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=16887",
       "teamID": "16887",
       "totalGames": 20,
@@ -367,7 +367,7 @@
     {
       "rank": 37,
       "team": "Middlesex Islanders East (Elite) 13U AAA",
-      "rating": 88.2,
+      "rating": 88.205,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1273",
       "teamID": "1273",
       "totalGames": 29,
@@ -377,7 +377,7 @@
     {
       "rank": 38,
       "team": "Milwaukee Jr Admirals 13U AAA",
-      "rating": 88.19,
+      "rating": 88.191,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1063",
       "teamID": "1063",
       "totalGames": 25,
@@ -387,7 +387,7 @@
     {
       "rank": 39,
       "team": "Philadelphia Little Flyers 13U AAA",
-      "rating": 88.08,
+      "rating": 88.085,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=28711",
       "teamID": "28711",
       "totalGames": 25,
@@ -397,7 +397,7 @@
     {
       "rank": 40,
       "team": "Philadelphia Hockey Club 13U AAA",
-      "rating": 87.88,
+      "rating": 87.888,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=24283",
       "teamID": "24283",
       "totalGames": 32,
@@ -407,7 +407,7 @@
     {
       "rank": 41,
       "team": "Belle Tire 13U AAA",
-      "rating": 87.76,
+      "rating": 87.764,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1023",
       "teamID": "1023",
       "totalGames": 29,
@@ -417,7 +417,7 @@
     {
       "rank": 42,
       "team": "MN Polars 13U AAA",
-      "rating": 87.67,
+      "rating": 87.679,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=32597",
       "teamID": "32597",
       "totalGames": 20,
@@ -427,7 +427,7 @@
     {
       "rank": 43,
       "team": "Wisconsin Jr Guardians 13U AAA",
-      "rating": 87.62,
+      "rating": 87.624,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34569",
       "teamID": "34569",
       "totalGames": 37,
@@ -437,7 +437,7 @@
     {
       "rank": 44,
       "team": "Springfield Jr Thunderbirds (Elite) 13U AAA",
-      "rating": 87.62,
+      "rating": 87.623,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1128",
       "teamID": "1128",
       "totalGames": 24,
@@ -447,7 +447,7 @@
     {
       "rank": 45,
       "team": "Phoenix Jr Coyotes 13U AAA",
-      "rating": 87.45,
+      "rating": 87.451,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=4795",
       "teamID": "4795",
       "totalGames": 24,
@@ -457,7 +457,7 @@
     {
       "rank": 46,
       "team": "Compuware 13U AAA",
-      "rating": 87.3,
+      "rating": 87.309,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1003",
       "teamID": "1003",
       "totalGames": 28,
@@ -467,7 +467,7 @@
     {
       "rank": 47,
       "team": "Buffalo Jr Sabres 13U AAA",
-      "rating": 87.18,
+      "rating": 87.183,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=14059",
       "teamID": "14059",
       "totalGames": 23,
@@ -477,7 +477,7 @@
     {
       "rank": 48,
       "team": "MN Loons 13U AAA",
-      "rating": 87.15,
+      "rating": 87.153,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=32596",
       "teamID": "32596",
       "totalGames": 20,
@@ -497,7 +497,7 @@
     {
       "rank": 50,
       "team": "Valley Jr Warriors (Elite) 13U AAA",
-      "rating": 87.1,
+      "rating": 87.108,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1353",
       "teamID": "1353",
       "totalGames": 28,
@@ -507,7 +507,7 @@
     {
       "rank": 51,
       "team": "Woodbridge Wolfpack 13U AAA",
-      "rating": 87.03,
+      "rating": 87.037,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=25922",
       "teamID": "25922",
       "totalGames": 29,
@@ -517,7 +517,7 @@
     {
       "rank": 52,
       "team": "Long Island Gulls 13U AAA",
-      "rating": 87.02,
+      "rating": 87.026,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1188",
       "teamID": "1188",
       "totalGames": 32,
@@ -527,7 +527,7 @@
     {
       "rank": 53,
       "team": "Florida Alliance (Premier) 13U AAA",
-      "rating": 86.9,
+      "rating": 86.905,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34907",
       "teamID": "34907",
       "totalGames": 11,
@@ -537,7 +537,7 @@
     {
       "rank": 54,
       "team": "Troy Albany Titans 13U AAA",
-      "rating": 86.9,
+      "rating": 86.902,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=4224",
       "teamID": "4224",
       "totalGames": 23,
@@ -547,7 +547,7 @@
     {
       "rank": 55,
       "team": "Chicago Phantoms 13U AAA",
-      "rating": 86.88,
+      "rating": 86.885,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34423",
       "teamID": "34423",
       "totalGames": 42,
@@ -557,7 +557,7 @@
     {
       "rank": 56,
       "team": "Indiana Elite 13U AAA",
-      "rating": 86.78,
+      "rating": 86.781,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=15318",
       "teamID": "15318",
       "totalGames": 23,
@@ -567,7 +567,7 @@
     {
       "rank": 57,
       "team": "Okanagan Hockey Colorado 13U AAA",
-      "rating": 86.77,
+      "rating": 86.774,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=32830",
       "teamID": "32830",
       "totalGames": 28,
@@ -577,7 +577,7 @@
     {
       "rank": 58,
       "team": "Victory Honda 13U AAA",
-      "rating": 86.57,
+      "rating": 86.573,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1018",
       "teamID": "1018",
       "totalGames": 26,
@@ -587,7 +587,7 @@
     {
       "rank": 59,
       "team": "Team Alaska 13U AAA",
-      "rating": 86.48,
+      "rating": 86.481,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2476",
       "teamID": "2476",
       "totalGames": 12,
@@ -597,7 +597,7 @@
     {
       "rank": 60,
       "team": "Syracuse Nationals (TB) 13U AAA",
-      "rating": 86.43,
+      "rating": 86.432,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1258",
       "teamID": "1258",
       "totalGames": 24,
@@ -607,7 +607,7 @@
     {
       "rank": 61,
       "team": "Mount St Charles Hockey Academy 13U AAA",
-      "rating": 86.36,
+      "rating": 86.364,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37458",
       "teamID": "37458",
       "totalGames": 29,
@@ -617,7 +617,7 @@
     {
       "rank": 62,
       "team": "Philadelphia Jr Flyers 13U AAA",
-      "rating": 86.33,
+      "rating": 86.338,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1423",
       "teamID": "1423",
       "totalGames": 26,
@@ -627,7 +627,7 @@
     {
       "rank": 63,
       "team": "Tri-Valley Bulls (#2) 13U AA",
-      "rating": 86.31,
+      "rating": 86.317,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=25166",
       "teamID": "25166",
       "totalGames": 25,
@@ -637,7 +637,7 @@
     {
       "rank": 64,
       "team": "Colorado Thunderbirds 13U AAA",
-      "rating": 86.28,
+      "rating": 86.281,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1147",
       "teamID": "1147",
       "totalGames": 27,
@@ -647,7 +647,7 @@
     {
       "rank": 65,
       "team": "MN Grey Ducks 13U AAA",
-      "rating": 86.27,
+      "rating": 86.272,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34247",
       "teamID": "34247",
       "totalGames": 20,
@@ -657,7 +657,7 @@
     {
       "rank": 66,
       "team": "Long Island Royals 13U AAA",
-      "rating": 86.25,
+      "rating": 86.255,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1198",
       "teamID": "1198",
       "totalGames": 29,
@@ -667,7 +667,7 @@
     {
       "rank": 67,
       "team": "Team Wisconsin 13U AAA",
-      "rating": 86.13,
+      "rating": 86.134,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=26225",
       "teamID": "26225",
       "totalGames": 29,
@@ -677,7 +677,7 @@
     {
       "rank": 68,
       "team": "St Louis Knights 13U AA",
-      "rating": 86.12,
+      "rating": 86.125,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2035",
       "teamID": "2035",
       "totalGames": 22,
@@ -687,7 +687,7 @@
     {
       "rank": 69,
       "team": "Sylvania North Stars 13U AAA",
-      "rating": 86.06,
+      "rating": 86.067,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2965",
       "teamID": "2965",
       "totalGames": 24,
@@ -697,7 +697,7 @@
     {
       "rank": 70,
       "team": "Pittsburgh Stars 13U AAA",
-      "rating": 86.05,
+      "rating": 86.055,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=26116",
       "teamID": "26116",
       "totalGames": 22,
@@ -717,7 +717,7 @@
     {
       "rank": 72,
       "team": "South Shore Kings (Elite) 13U AAA",
-      "rating": 85.95,
+      "rating": 85.953,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1283",
       "teamID": "1283",
       "totalGames": 24,
@@ -727,7 +727,7 @@
     {
       "rank": 73,
       "team": "Buffalo Regals (Spear) 13U AAA",
-      "rating": 85.92,
+      "rating": 85.923,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1138",
       "teamID": "1138",
       "totalGames": 28,
@@ -737,7 +737,7 @@
     {
       "rank": 74,
       "team": "Yale Junior Bulldogs 13U AAA",
-      "rating": 85.91,
+      "rating": 85.913,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=28466",
       "teamID": "28466",
       "totalGames": 30,
@@ -747,7 +747,7 @@
     {
       "rank": 75,
       "team": "Raleigh Raptors (Selects) 13U AA",
-      "rating": 85.89,
+      "rating": 85.892,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2446",
       "teamID": "2446",
       "totalGames": 23,
@@ -757,7 +757,7 @@
     {
       "rank": 76,
       "team": "Arizona Jr Sun Devils 13U AA",
-      "rating": 85.88,
+      "rating": 85.886,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=3636",
       "teamID": "3636",
       "totalGames": 26,
@@ -767,7 +767,7 @@
     {
       "rank": 77,
       "team": "Jersey Hitmen 13U AAA",
-      "rating": 85.82,
+      "rating": 85.824,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=16818",
       "teamID": "16818",
       "totalGames": 27,
@@ -777,7 +777,7 @@
     {
       "rank": 78,
       "team": "North Jersey Avalanche 13U AAA",
-      "rating": 85.66,
+      "rating": 85.669,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1213",
       "teamID": "1213",
       "totalGames": 29,
@@ -787,7 +787,7 @@
     {
       "rank": 79,
       "team": "Madison Capitols 13U AAA",
-      "rating": 85.63,
+      "rating": 85.636,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1068",
       "teamID": "1068",
       "totalGames": 25,
@@ -797,7 +797,7 @@
     {
       "rank": 80,
       "team": "East Coast Wizards (Elite) 13U AAA",
-      "rating": 85.61,
+      "rating": 85.612,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1308",
       "teamID": "1308",
       "totalGames": 20,
@@ -807,7 +807,7 @@
     {
       "rank": 81,
       "team": "Biggby Coffee 13U AAA",
-      "rating": 85.5,
+      "rating": 85.506,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1038",
       "teamID": "1038",
       "totalGames": 21,
@@ -827,7 +827,7 @@
     {
       "rank": 83,
       "team": "Boston Jr Terriers (Elite) 13U AAA",
-      "rating": 85.31,
+      "rating": 85.313,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1428",
       "teamID": "1428",
       "totalGames": 22,
@@ -837,7 +837,7 @@
     {
       "rank": 84,
       "team": "Pittsburgh Predators 13U AAA",
-      "rating": 85.19,
+      "rating": 85.196,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2693",
       "teamID": "2693",
       "totalGames": 25,
@@ -847,7 +847,7 @@
     {
       "rank": 85,
       "team": "Dallas Penguins 13U AA",
-      "rating": 85.14,
+      "rating": 85.144,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=16658",
       "teamID": "16658",
       "totalGames": 29,
@@ -857,7 +857,7 @@
     {
       "rank": 86,
       "team": "CarShield 13U AAA",
-      "rating": 85.13,
+      "rating": 85.134,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2588",
       "teamID": "2588",
       "totalGames": 23,
@@ -867,7 +867,7 @@
     {
       "rank": 87,
       "team": "Midwest Warriors 13U AAA",
-      "rating": 85.09,
+      "rating": 85.096,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37362",
       "teamID": "37362",
       "totalGames": 20,
@@ -877,7 +877,7 @@
     {
       "rank": 88,
       "team": "Plymouth Flyers (Black) 13U A",
-      "rating": 85.08,
+      "rating": 85.082,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2191",
       "teamID": "2191",
       "totalGames": 29,
@@ -887,7 +887,7 @@
     {
       "rank": 89,
       "team": "Pittsburgh Vengeance 13U AAA",
-      "rating": 85.03,
+      "rating": 85.031,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=13393",
       "teamID": "13393",
       "totalGames": 19,
@@ -897,7 +897,7 @@
     {
       "rank": 90,
       "team": "Providence Capitals (Elite) 13U AAA",
-      "rating": 85.01,
+      "rating": 85.018,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1253",
       "teamID": "1253",
       "totalGames": 19,
@@ -907,7 +907,7 @@
     {
       "rank": 91,
       "team": "California Bears (#2) 13U AA",
-      "rating": 85,
+      "rating": 85.002,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2447",
       "teamID": "2447",
       "totalGames": 17,
@@ -917,7 +917,7 @@
     {
       "rank": 92,
       "team": "Palmyra Black Knights 13U AAA",
-      "rating": 84.95,
+      "rating": 84.958,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=24489",
       "teamID": "24489",
       "totalGames": 23,
@@ -927,7 +927,7 @@
     {
       "rank": 93,
       "team": "Red Bank Generals 13U AAA",
-      "rating": 84.91,
+      "rating": 84.917,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=32679",
       "teamID": "32679",
       "totalGames": 25,
@@ -937,7 +937,7 @@
     {
       "rank": 94,
       "team": "Columbus Blue Jackets (Haggard) 13U AA",
-      "rating": 84.68,
+      "rating": 84.685,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2458",
       "teamID": "2458",
       "totalGames": 22,
@@ -947,7 +947,7 @@
     {
       "rank": 95,
       "team": "Orchard Lake 13U A",
-      "rating": 84.67,
+      "rating": 84.674,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2955",
       "teamID": "2955",
       "totalGames": 19,
@@ -957,7 +957,7 @@
     {
       "rank": 96,
       "team": "Vermont Jr Catamounts 13U AAA",
-      "rating": 84.64,
+      "rating": 84.649,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=28950",
       "teamID": "28950",
       "totalGames": 27,
@@ -967,7 +967,7 @@
     {
       "rank": 97,
       "team": "Boston Americans 13U AAA",
-      "rating": 84.64,
+      "rating": 84.648,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=24206",
       "teamID": "24206",
       "totalGames": 23,
@@ -977,7 +977,7 @@
     {
       "rank": 98,
       "team": "Peoria Jr Mustangs (CSDHL) 13U AA",
-      "rating": 84.59,
+      "rating": 84.591,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=25007",
       "teamID": "25007",
       "totalGames": 24,
@@ -987,7 +987,7 @@
     {
       "rank": 99,
       "team": "Southeast Blades 13U AAA",
-      "rating": 84.53,
+      "rating": 84.531,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37519",
       "teamID": "37519",
       "totalGames": 21,
@@ -997,12 +997,1012 @@
     {
       "rank": 100,
       "team": "Chelsea Chiefs (Gold) 13U A",
-      "rating": 84.41,
+      "rating": 84.411,
       "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=26583",
       "teamID": "26583",
       "totalGames": 18,
       "totalOpponentRating": 1493.41,
       "totalGoalDifferential": 26
+    },
+    {
+      "rank": 101,
+      "team": "Lakewood Ice Dogs 13U AA",
+      "rating": 84.407,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=15821",
+      "teamID": "15821",
+      "totalGames": 25,
+      "totalOpponentRating": 2083.18,
+      "totalGoalDifferential": 27
+    },
+    {
+      "rank": 102,
+      "team": "Top Gun (T1-Platinum) 13U AAA",
+      "rating": 84.245,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=3575",
+      "teamID": "3575",
+      "totalGames": 25,
+      "totalOpponentRating": 2054.13,
+      "totalGoalDifferential": 52
+    },
+    {
+      "rank": 103,
+      "team": "Toledo Cherokee 13U AA",
+      "rating": 84.196,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=25106",
+      "teamID": "25106",
+      "totalGames": 27,
+      "totalOpponentRating": 2260.32,
+      "totalGoalDifferential": 13
+    },
+    {
+      "rank": 104,
+      "team": "St Louis Sting 13U AA",
+      "rating": 84.191,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=22800",
+      "teamID": "22800",
+      "totalGames": 25,
+      "totalOpponentRating": 2052.78,
+      "totalGoalDifferential": 52
+    },
+    {
+      "rank": 105,
+      "team": "Omaha Jr Mavericks (CSDHL) 13U AA",
+      "rating": 84.057,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37386",
+      "teamID": "37386",
+      "totalGames": 19,
+      "totalOpponentRating": 1571.09,
+      "totalGoalDifferential": 26
+    },
+    {
+      "rank": 106,
+      "team": "San Jose Jr Sharks 13U AAA",
+      "rating": 84.047,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2532",
+      "teamID": "2532",
+      "totalGames": 21,
+      "totalOpponentRating": 1793,
+      "totalGoalDifferential": -28
+    },
+    {
+      "rank": 107,
+      "team": "Boston Advantage (Elite) 13U AAA",
+      "rating": 83.961,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=4488",
+      "teamID": "4488",
+      "totalGames": 17,
+      "totalOpponentRating": 1401.35,
+      "totalGoalDifferential": 26
+    },
+    {
+      "rank": 108,
+      "team": "Northern Express (CSDHL) 13U AA",
+      "rating": 83.869,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2146",
+      "teamID": "2146",
+      "totalGames": 22,
+      "totalOpponentRating": 1824.14,
+      "totalGoalDifferential": 21
+    },
+    {
+      "rank": 109,
+      "team": "Nichols School 13U AAA",
+      "rating": 83.852,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34896",
+      "teamID": "34896",
+      "totalGames": 21,
+      "totalOpponentRating": 1811.88,
+      "totalGoalDifferential": -51
+    },
+    {
+      "rank": 110,
+      "team": "Ohio Rivermen 13U AAA",
+      "rating": 83.688,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37313",
+      "teamID": "37313",
+      "totalGames": 18,
+      "totalOpponentRating": 1523.38,
+      "totalGoalDifferential": -17
+    },
+    {
+      "rank": 111,
+      "team": "Great Lakes HC 13U AA",
+      "rating": 83.512,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37825",
+      "teamID": "37825",
+      "totalGames": 16,
+      "totalOpponentRating": 1360.19,
+      "totalGoalDifferential": -24
+    },
+    {
+      "rank": 112,
+      "team": "Greater Boston Jr Bruins 13U AAA",
+      "rating": 83.506,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1473",
+      "teamID": "1473",
+      "totalGames": 22,
+      "totalOpponentRating": 1832.14,
+      "totalGoalDifferential": 5
+    },
+    {
+      "rank": 113,
+      "team": "St Lawrence Steel 13U AA",
+      "rating": 83.474,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2016",
+      "teamID": "2016",
+      "totalGames": 12,
+      "totalOpponentRating": 1004.68,
+      "totalGoalDifferential": -3
+    },
+    {
+      "rank": 114,
+      "team": "Chicago Hawks (CSDHL) 13U AA",
+      "rating": 83.461,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2011",
+      "teamID": "2011",
+      "totalGames": 20,
+      "totalOpponentRating": 1652.23,
+      "totalGoalDifferential": 17
+    },
+    {
+      "rank": 115,
+      "team": "Team Philadelphia (Black) 13U AA",
+      "rating": 83.449,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=24225",
+      "teamID": "24225",
+      "totalGames": 33,
+      "totalOpponentRating": 2651.83,
+      "totalGoalDifferential": 102
+    },
+    {
+      "rank": 116,
+      "team": "NY Dynamo 13U AAA",
+      "rating": 83.305,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2168",
+      "teamID": "2168",
+      "totalGames": 28,
+      "totalOpponentRating": 2298.55,
+      "totalGoalDifferential": 34
+    },
+    {
+      "rank": 117,
+      "team": "Syracuse Nationals (NTB) 13U AAA",
+      "rating": 83.273,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37613",
+      "teamID": "37613",
+      "totalGames": 35,
+      "totalOpponentRating": 2845.55,
+      "totalGoalDifferential": 69
+    },
+    {
+      "rank": 118,
+      "team": "West Dundee Leafs (CSDHL) 13U AA",
+      "rating": 83.244,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=17210",
+      "teamID": "17210",
+      "totalGames": 25,
+      "totalOpponentRating": 2078.1,
+      "totalGoalDifferential": 3
+    },
+    {
+      "rank": 119,
+      "team": "Wilmette Jr Trevians (CSDHL) 13U AA",
+      "rating": 83.235,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=3579",
+      "teamID": "3579",
+      "totalGames": 20,
+      "totalOpponentRating": 1655.71,
+      "totalGoalDifferential": 9
+    },
+    {
+      "rank": 120,
+      "team": "New York City Hockey Club 13U AAA",
+      "rating": 83.193,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=32286",
+      "teamID": "32286",
+      "totalGames": 32,
+      "totalOpponentRating": 2616.21,
+      "totalGoalDifferential": 46
+    },
+    {
+      "rank": 121,
+      "team": "PAL Jr Islanders 13U AAA",
+      "rating": 83.173,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1108",
+      "teamID": "1108",
+      "totalGames": 16,
+      "totalOpponentRating": 1348.77,
+      "totalGoalDifferential": -18
+    },
+    {
+      "rank": 122,
+      "team": "Boston Jr Terriers (T1-Platinum-Red) 13U AAA",
+      "rating": 83.152,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=24144",
+      "teamID": "24144",
+      "totalGames": 19,
+      "totalOpponentRating": 1556.91,
+      "totalGoalDifferential": 23
+    },
+    {
+      "rank": 123,
+      "team": "Philadelphia Genesis Hockey Club 13U AA",
+      "rating": 83.063,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=32544",
+      "teamID": "32544",
+      "totalGames": 38,
+      "totalOpponentRating": 3065.4,
+      "totalGoalDifferential": 91
+    },
+    {
+      "rank": 124,
+      "team": "Team Ohio 13U AA",
+      "rating": 83.037,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2015",
+      "teamID": "2015",
+      "totalGames": 26,
+      "totalOpponentRating": 2106.95,
+      "totalGoalDifferential": 52
+    },
+    {
+      "rank": 125,
+      "team": "Boston Jr Eagles (T1-Platinum) 13U AAA",
+      "rating": 83.023,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37432",
+      "teamID": "37432",
+      "totalGames": 21,
+      "totalOpponentRating": 1750.49,
+      "totalGoalDifferential": -7
+    },
+    {
+      "rank": 126,
+      "team": "Carolina Junior Canes 13U AAA",
+      "rating": 82.988,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1123",
+      "teamID": "1123",
+      "totalGames": 19,
+      "totalOpponentRating": 1628.76,
+      "totalGoalDifferential": -52
+    },
+    {
+      "rank": 127,
+      "team": "Rochester Rattlers (Black) 13U A",
+      "rating": 82.966,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34233",
+      "teamID": "34233",
+      "totalGames": 24,
+      "totalOpponentRating": 1985.19,
+      "totalGoalDifferential": 6
+    },
+    {
+      "rank": 128,
+      "team": "Northern Cyclones Academy (T1-Platinum) 13U AAA",
+      "rating": 82.805,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1348",
+      "teamID": "1348",
+      "totalGames": 13,
+      "totalOpponentRating": 1071.47,
+      "totalGoalDifferential": 5
+    },
+    {
+      "rank": 129,
+      "team": "Lovell Winter Club (Elite) 13U AAA",
+      "rating": 82.774,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=3524",
+      "teamID": "3524",
+      "totalGames": 19,
+      "totalOpponentRating": 1571.72,
+      "totalGoalDifferential": 1
+    },
+    {
+      "rank": 130,
+      "team": "Texas Jr Brahmas 13U A",
+      "rating": 82.765,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=28861",
+      "teamID": "28861",
+      "totalGames": 25,
+      "totalOpponentRating": 2023.12,
+      "totalGoalDifferential": 46
+    },
+    {
+      "rank": 131,
+      "team": "Lake County Vipers (CSDHL) 13U AA",
+      "rating": 82.743,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2788",
+      "teamID": "2788",
+      "totalGames": 27,
+      "totalOpponentRating": 2242.05,
+      "totalGoalDifferential": -8
+    },
+    {
+      "rank": 132,
+      "team": "Worcester Jr Railers (Elite) 13U AAA",
+      "rating": 82.709,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=28756",
+      "teamID": "28756",
+      "totalGames": 18,
+      "totalOpponentRating": 1510.76,
+      "totalGoalDifferential": -22
+    },
+    {
+      "rank": 133,
+      "team": "New Hampshire Avalanche (Elite) 13U AAA",
+      "rating": 82.704,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1338",
+      "teamID": "1338",
+      "totalGames": 15,
+      "totalOpponentRating": 1259.55,
+      "totalGoalDifferential": -19
+    },
+    {
+      "rank": 134,
+      "team": "Casco Bay Mariners 13U AAA",
+      "rating": 82.674,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=27761",
+      "teamID": "27761",
+      "totalGames": 19,
+      "totalOpponentRating": 1562.81,
+      "totalGoalDifferential": 8
+    },
+    {
+      "rank": 135,
+      "team": "Ashburn Xtreme (Upper) 13U A",
+      "rating": 82.666,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2654",
+      "teamID": "2654",
+      "totalGames": 27,
+      "totalOpponentRating": 2175.97,
+      "totalGoalDifferential": 56
+    },
+    {
+      "rank": 136,
+      "team": "Middlesex Islanders East (T1-Platinum) 13U AAA",
+      "rating": 82.617,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1368",
+      "teamID": "1368",
+      "totalGames": 20,
+      "totalOpponentRating": 1649.34,
+      "totalGoalDifferential": 3
+    },
+    {
+      "rank": 137,
+      "team": "Mid-Fairfield Hockey Club (T1) 13U AAA",
+      "rating": 82.57,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=27441",
+      "teamID": "27441",
+      "totalGames": 23,
+      "totalOpponentRating": 1888.12,
+      "totalGoalDifferential": 11
+    },
+    {
+      "rank": 138,
+      "team": "Assabet Valley Patriots (Elite) 13U AAA",
+      "rating": 82.565,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1303",
+      "teamID": "1303",
+      "totalGames": 15,
+      "totalOpponentRating": 1247.48,
+      "totalGoalDifferential": -9
+    },
+    {
+      "rank": 139,
+      "team": "Providence Capitals North (Nuttall) 13U AAA",
+      "rating": 82.501,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=28514",
+      "teamID": "28514",
+      "totalGames": 21,
+      "totalOpponentRating": 1730.53,
+      "totalGoalDifferential": 2
+    },
+    {
+      "rank": 140,
+      "team": "Rochester Coalition 13U AAA",
+      "rating": 82.496,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=26081",
+      "teamID": "26081",
+      "totalGames": 25,
+      "totalOpponentRating": 2057.4,
+      "totalGoalDifferential": 5
+    },
+    {
+      "rank": 141,
+      "team": "Vegas Jr Golden Knights 13U AAA",
+      "rating": 82.463,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=16888",
+      "teamID": "16888",
+      "totalGames": 28,
+      "totalOpponentRating": 2342.96,
+      "totalGoalDifferential": -34
+    },
+    {
+      "rank": 142,
+      "team": "Bay State Breakers (Elite) 13U AAA",
+      "rating": 82.387,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34148",
+      "teamID": "34148",
+      "totalGames": 18,
+      "totalOpponentRating": 1563.98,
+      "totalGoalDifferential": -81
+    },
+    {
+      "rank": 143,
+      "team": "Long Island Rebels 13U AA",
+      "rating": 82.385,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2963",
+      "teamID": "2963",
+      "totalGames": 30,
+      "totalOpponentRating": 2394.54,
+      "totalGoalDifferential": 77
+    },
+    {
+      "rank": 144,
+      "team": "Valley Forge Minutemen 13U AAA",
+      "rating": 82.257,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=3021",
+      "teamID": "3021",
+      "totalGames": 25,
+      "totalOpponentRating": 2063.43,
+      "totalGoalDifferential": -7
+    },
+    {
+      "rank": 145,
+      "team": "Mercer Chiefs 13U AAA",
+      "rating": 82.212,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1193",
+      "teamID": "1193",
+      "totalGames": 20,
+      "totalOpponentRating": 1655.25,
+      "totalGoalDifferential": -11
+    },
+    {
+      "rank": 146,
+      "team": "St Louis Eagles 13U AA",
+      "rating": 82.18,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=27569",
+      "teamID": "27569",
+      "totalGames": 16,
+      "totalOpponentRating": 1313.88,
+      "totalGoalDifferential": 1
+    },
+    {
+      "rank": 147,
+      "team": "Florida Surf 13U AAA",
+      "rating": 82.166,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37385",
+      "teamID": "37385",
+      "totalGames": 24,
+      "totalOpponentRating": 2039.98,
+      "totalGoalDifferential": -68
+    },
+    {
+      "rank": 148,
+      "team": "East Coast Militia (Vikings) 13U AAA",
+      "rating": 82.155,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37689",
+      "teamID": "37689",
+      "totalGames": 29,
+      "totalOpponentRating": 2379.51,
+      "totalGoalDifferential": 3
+    },
+    {
+      "rank": 149,
+      "team": "Hartford Jr Wolfpack 13U AAA",
+      "rating": 82.098,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37759",
+      "teamID": "37759",
+      "totalGames": 22,
+      "totalOpponentRating": 1816.15,
+      "totalGoalDifferential": -10
+    },
+    {
+      "rank": 150,
+      "team": "Orland Park Vikings (CSDHL) 13U AA",
+      "rating": 82.045,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2220",
+      "teamID": "2220",
+      "totalGames": 16,
+      "totalOpponentRating": 1323.72,
+      "totalGoalDifferential": -11
+    },
+    {
+      "rank": 151,
+      "team": "West Seneca Wings (Blue) 13U AA",
+      "rating": 82.043,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=13528",
+      "teamID": "13528",
+      "totalGames": 22,
+      "totalOpponentRating": 1765.95,
+      "totalGoalDifferential": 39
+    },
+    {
+      "rank": 152,
+      "team": "Mt Lebanon Hornets (#1) 13U AA",
+      "rating": 82.041,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=15358",
+      "teamID": "15358",
+      "totalGames": 18,
+      "totalOpponentRating": 1452.73,
+      "totalGoalDifferential": 24
+    },
+    {
+      "rank": 153,
+      "team": "New England Knights 13U AAA",
+      "rating": 82.013,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=16903",
+      "teamID": "16903",
+      "totalGames": 13,
+      "totalOpponentRating": 1043.16,
+      "totalGoalDifferential": 23
+    },
+    {
+      "rank": 154,
+      "team": "Seacoast Spartans (T1-Platinum) 13U AAA",
+      "rating": 81.879,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=12361",
+      "teamID": "12361",
+      "totalGames": 21,
+      "totalOpponentRating": 1723.45,
+      "totalGoalDifferential": -4
+    },
+    {
+      "rank": 155,
+      "team": "Philadelphia Blazers 13U AA",
+      "rating": 81.84,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=13510",
+      "teamID": "13510",
+      "totalGames": 31,
+      "totalOpponentRating": 2451.02,
+      "totalGoalDifferential": 86
+    },
+    {
+      "rank": 156,
+      "team": "Nassau County Lions 13U AA",
+      "rating": 81.77,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=20624",
+      "teamID": "20624",
+      "totalGames": 26,
+      "totalOpponentRating": 2109.03,
+      "totalGoalDifferential": 17
+    },
+    {
+      "rank": 157,
+      "team": "Columbus Capitals (Blue) 13U AA",
+      "rating": 81.752,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=4734",
+      "teamID": "4734",
+      "totalGames": 24,
+      "totalOpponentRating": 1956.06,
+      "totalGoalDifferential": 6
+    },
+    {
+      "rank": 158,
+      "team": "Colorado Rampage 13U AAA",
+      "rating": 81.693,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2603",
+      "teamID": "2603",
+      "totalGames": 21,
+      "totalOpponentRating": 1775.55,
+      "totalGoalDifferential": -60
+    },
+    {
+      "rank": 159,
+      "team": "Darien Youth 13U AA",
+      "rating": 81.678,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=13339",
+      "teamID": "13339",
+      "totalGames": 31,
+      "totalOpponentRating": 2500.02,
+      "totalGoalDifferential": 32
+    },
+    {
+      "rank": 160,
+      "team": "Middlesex Islanders West (T1-Platinum) 13U AAA",
+      "rating": 81.672,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=14346",
+      "teamID": "14346",
+      "totalGames": 16,
+      "totalOpponentRating": 1315.75,
+      "totalGoalDifferential": -9
+    },
+    {
+      "rank": 161,
+      "team": "Lansing Spartans 13U A",
+      "rating": 81.443,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2143",
+      "teamID": "2143",
+      "totalGames": 16,
+      "totalOpponentRating": 1247.08,
+      "totalGoalDifferential": 56
+    },
+    {
+      "rank": 162,
+      "team": "Ohio Prospects 13U AAA",
+      "rating": 81.414,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=28557",
+      "teamID": "28557",
+      "totalGames": 17,
+      "totalOpponentRating": 1394.04,
+      "totalGoalDifferential": -10
+    },
+    {
+      "rank": 163,
+      "team": "Westchester Express (North) 13U AAA",
+      "rating": 81.336,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1248",
+      "teamID": "1248",
+      "totalGames": 24,
+      "totalOpponentRating": 1999.06,
+      "totalGoalDifferential": -47
+    },
+    {
+      "rank": 164,
+      "team": "Rochester Rattlers (Purple) 13U A",
+      "rating": 81.326,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=30056",
+      "teamID": "30056",
+      "totalGames": 21,
+      "totalOpponentRating": 1693.84,
+      "totalGoalDifferential": 14
+    },
+    {
+      "rank": 165,
+      "team": "Yale Junior Bulldogs 13U AA",
+      "rating": 81.326,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=14961",
+      "teamID": "14961",
+      "totalGames": 18,
+      "totalOpponentRating": 1436.85,
+      "totalGoalDifferential": 27
+    },
+    {
+      "rank": 166,
+      "team": "Middlesex Islanders West (T1-Upper) 13U AAA",
+      "rating": 81.283,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1432",
+      "teamID": "1432",
+      "totalGames": 18,
+      "totalOpponentRating": 1426.09,
+      "totalGoalDifferential": 37
+    },
+    {
+      "rank": 167,
+      "team": "Traverse City North Stars 13U A",
+      "rating": 81.259,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=3142",
+      "teamID": "3142",
+      "totalGames": 30,
+      "totalOpponentRating": 2459.76,
+      "totalGoalDifferential": -22
+    },
+    {
+      "rank": 168,
+      "team": "Honeybaked 13U A",
+      "rating": 81.239,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=14585",
+      "teamID": "14585",
+      "totalGames": 19,
+      "totalOpponentRating": 1537.54,
+      "totalGoalDifferential": 6
+    },
+    {
+      "rank": 169,
+      "team": "Montgomery Ice Devils (Upper-Gold) 13U A",
+      "rating": 81.222,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=14670",
+      "teamID": "14670",
+      "totalGames": 33,
+      "totalOpponentRating": 2630.32,
+      "totalGoalDifferential": 50
+    },
+    {
+      "rank": 170,
+      "team": "Trenton Blades (Black) 13U A",
+      "rating": 81.173,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=24142",
+      "teamID": "24142",
+      "totalGames": 24,
+      "totalOpponentRating": 1945.13,
+      "totalGoalDifferential": 3
+    },
+    {
+      "rank": 171,
+      "team": "New York Saints 13U AAA",
+      "rating": 81.134,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=3195",
+      "teamID": "3195",
+      "totalGames": 23,
+      "totalOpponentRating": 1833.09,
+      "totalGoalDifferential": 33
+    },
+    {
+      "rank": 172,
+      "team": "Rocky Mountain RoughRiders 13U AAA",
+      "rating": 81.134,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=4047",
+      "teamID": "4047",
+      "totalGames": 17,
+      "totalOpponentRating": 1436.27,
+      "totalGoalDifferential": -57
+    },
+    {
+      "rank": 173,
+      "team": "South Pittsburgh Rebellion (#2) 13U AA",
+      "rating": 81.131,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2535",
+      "teamID": "2535",
+      "totalGames": 26,
+      "totalOpponentRating": 2066.41,
+      "totalGoalDifferential": 43
+    },
+    {
+      "rank": 174,
+      "team": "95 Giants (Elite) 13U AAA",
+      "rating": 81.127,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=21901",
+      "teamID": "21901",
+      "totalGames": 16,
+      "totalOpponentRating": 1335.03,
+      "totalGoalDifferential": -37
+    },
+    {
+      "rank": 175,
+      "team": "Wheatfield Blades (Gold) 13U AA",
+      "rating": 81.118,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1172",
+      "teamID": "1172",
+      "totalGames": 20,
+      "totalOpponentRating": 1565.34,
+      "totalGoalDifferential": 57
+    },
+    {
+      "rank": 176,
+      "team": "Minuteman Flames (T1-Platinum) 13U AAA",
+      "rating": 81.103,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=14239",
+      "teamID": "14239",
+      "totalGames": 20,
+      "totalOpponentRating": 1634.06,
+      "totalGoalDifferential": -12
+    },
+    {
+      "rank": 177,
+      "team": "Geneva Cyclones (CSDHL) 13U AA",
+      "rating": 81.097,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2013",
+      "teamID": "2013",
+      "totalGames": 15,
+      "totalOpponentRating": 1249.46,
+      "totalGoalDifferential": -33
+    },
+    {
+      "rank": 178,
+      "team": "AY NorthStars (T1-Upper) 13U AAA",
+      "rating": 80.817,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=25938",
+      "teamID": "25938",
+      "totalGames": 19,
+      "totalOpponentRating": 1514.51,
+      "totalGoalDifferential": 21
+    },
+    {
+      "rank": 179,
+      "team": "Rhode Island Saints (Elite) 13U AAA",
+      "rating": 80.725,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1513",
+      "teamID": "1513",
+      "totalGames": 14,
+      "totalOpponentRating": 1114.16,
+      "totalGoalDifferential": 16
+    },
+    {
+      "rank": 180,
+      "team": "Chicago Jets (CSDHL) 13U AA",
+      "rating": 80.722,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=18862",
+      "teamID": "18862",
+      "totalGames": 18,
+      "totalOpponentRating": 1474.99,
+      "totalGoalDifferential": -22
+    },
+    {
+      "rank": 181,
+      "team": "Carolina Premier 13U AAA",
+      "rating": 80.62,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34075",
+      "teamID": "34075",
+      "totalGames": 11,
+      "totalOpponentRating": 917.82,
+      "totalGoalDifferential": -31
+    },
+    {
+      "rank": 182,
+      "team": "New Jersey Devils 13U AAA",
+      "rating": 80.586,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1208",
+      "teamID": "1208",
+      "totalGames": 23,
+      "totalOpponentRating": 1867.45,
+      "totalGoalDifferential": -14
+    },
+    {
+      "rank": 183,
+      "team": "Fox Motors 13U A",
+      "rating": 80.507,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2276",
+      "teamID": "2276",
+      "totalGames": 25,
+      "totalOpponentRating": 2018.65,
+      "totalGoalDifferential": -6
+    },
+    {
+      "rank": 184,
+      "team": "Manchester Flames (T1-Upper) 13U AAA",
+      "rating": 80.507,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=9484",
+      "teamID": "9484",
+      "totalGames": 23,
+      "totalOpponentRating": 1775.65,
+      "totalGoalDifferential": 76
+    },
+    {
+      "rank": 185,
+      "team": "Nashville Jr Predators 13U AA",
+      "rating": 80.505,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37333",
+      "teamID": "37333",
+      "totalGames": 18,
+      "totalOpponentRating": 1464.07,
+      "totalGoalDifferential": -15
+    },
+    {
+      "rank": 186,
+      "team": "Boch Blazers (T1-Upper) 13U AAA",
+      "rating": 80.465,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=21363",
+      "teamID": "21363",
+      "totalGames": 12,
+      "totalOpponentRating": 942.57,
+      "totalGoalDifferential": 23
+    },
+    {
+      "rank": 187,
+      "team": "Connecticut Chiefs 13U AAA",
+      "rating": 80.433,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=12265",
+      "teamID": "12265",
+      "totalGames": 23,
+      "totalOpponentRating": 1870.95,
+      "totalGoalDifferential": -21
+    },
+    {
+      "rank": 188,
+      "team": "Amherst Knights 13U AAA",
+      "rating": 80.432,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=1813",
+      "teamID": "1813",
+      "totalGames": 23,
+      "totalOpponentRating": 1865.91,
+      "totalGoalDifferential": -16
+    },
+    {
+      "rank": 189,
+      "team": "Littleton Hawks 13U AA",
+      "rating": 80.421,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=14824",
+      "teamID": "14824",
+      "totalGames": 24,
+      "totalOpponentRating": 1985.1,
+      "totalGoalDifferential": -55
+    },
+    {
+      "rank": 190,
+      "team": "Westmoreland Eagles (#1) 13U AA",
+      "rating": 80.391,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=15367",
+      "teamID": "15367",
+      "totalGames": 18,
+      "totalOpponentRating": 1437.04,
+      "totalGoalDifferential": 10
+    },
+    {
+      "rank": 191,
+      "team": "Texas Tigers 13U A",
+      "rating": 80.348,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2683",
+      "teamID": "2683",
+      "totalGames": 25,
+      "totalOpponentRating": 2018.68,
+      "totalGoalDifferential": -10
+    },
+    {
+      "rank": 192,
+      "team": "Fort Wayne Force 13U A",
+      "rating": 80.298,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=34210",
+      "teamID": "34210",
+      "totalGames": 14,
+      "totalOpponentRating": 1145.18,
+      "totalGoalDifferential": -21
+    },
+    {
+      "rank": 193,
+      "team": "Long Island Arrows 13U AAA",
+      "rating": 80.23,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=15228",
+      "teamID": "15228",
+      "totalGames": 30,
+      "totalOpponentRating": 2463.91,
+      "totalGoalDifferential": -57
+    },
+    {
+      "rank": 194,
+      "team": "South Shore Kings (T1-Platinum) 13U AAA",
+      "rating": 80.217,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=24140",
+      "teamID": "24140",
+      "totalGames": 20,
+      "totalOpponentRating": 1618.32,
+      "totalGoalDifferential": -14
+    },
+    {
+      "rank": 195,
+      "team": "Allegheny Badgers (#1) 13U AA",
+      "rating": 80.157,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=15364",
+      "teamID": "15364",
+      "totalGames": 28,
+      "totalOpponentRating": 2254.38,
+      "totalGoalDifferential": -10
+    },
+    {
+      "rank": 196,
+      "team": "Webster Cyclones 13U AA",
+      "rating": 80.128,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2971",
+      "teamID": "2971",
+      "totalGames": 17,
+      "totalOpponentRating": 1356.18,
+      "totalGoalDifferential": 6
+    },
+    {
+      "rank": 197,
+      "team": "St Clair Shores Saints (White) 13U A",
+      "rating": 80.073,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2169",
+      "teamID": "2169",
+      "totalGames": 21,
+      "totalOpponentRating": 1687.51,
+      "totalGoalDifferential": -6
+    },
+    {
+      "rank": 198,
+      "team": "Hartland Huskies (Silver) 13U A",
+      "rating": 80.063,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=2203",
+      "teamID": "2203",
+      "totalGames": 23,
+      "totalOpponentRating": 1833.44,
+      "totalGoalDifferential": 8
+    },
+    {
+      "rank": 199,
+      "team": "St Clair Shores Saints (Red) 13U A",
+      "rating": 80.059,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=12181",
+      "teamID": "12181",
+      "totalGames": 26,
+      "totalOpponentRating": 2088.5,
+      "totalGoalDifferential": -7
+    },
+    {
+      "rank": 200,
+      "team": "South Hills Panthers 13U AAA",
+      "rating": 80.002,
+      "url": "https://myhockeyrankings.com/team_info.php?y=2025&t=37369",
+      "teamID": "37369",
+      "totalGames": 28,
+      "totalOpponentRating": 2304.04,
+      "totalGoalDifferential": -64
     }
   ]
 }
