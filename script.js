@@ -28,9 +28,86 @@ function sanitizeSignedDecimal(str)
     return s;
 }
 
+// ---------- Team Data (from rankings-data.json) ----------
+const CUSTOM_TEAM_ID = "__custom";
+
+const teamData =
+{
+    teams: [],
+    map: new Map(),
+    ready: false,
+    error: false
+};
+
+let baselineTeamSelection = CUSTOM_TEAM_ID;
+let lastBaselineTeamApplied = "";
+
+function getTeamById(id)
+{
+    if (!id)
+    {
+        return null;
+    }
+    return teamData.map.get(String(id)) || null;
+}
+
+function formatTeamOptionLabel(team)
+{
+    const rank = Number(team.rank);
+    const name = team.team || "Team";
+    return Number.isFinite(rank) ? `[${rank}] ${name}` : name;
+}
+
+function buildTeamOptions(select, selectedValue = "", placeholderText = "Select team")
+{
+    if (!select)
+    {
+        return;
+    }
+
+    const previousValue = selectedValue ?? select.value ?? CUSTOM_TEAM_ID;
+    select.innerHTML = "";
+
+    const customOpt = document.createElement("option");
+    customOpt.value = CUSTOM_TEAM_ID;
+    customOpt.textContent = "Custom";
+    select.appendChild(customOpt);
+
+    if (!teamData.ready)
+    {
+        const loading = document.createElement("option");
+        loading.value = "";
+        loading.textContent = teamData.error ? "Unable to load teams" : "Loading teams…";
+        select.appendChild(loading);
+    }
+
+    if (teamData.ready)
+    {
+        teamData.teams.forEach((team) =>
+        {
+            const id = String(team.teamID ?? team.teamId ?? "");
+            if (!id)
+            {
+                return;
+            }
+            const opt = document.createElement("option");
+            opt.value = id;
+            opt.textContent = formatTeamOptionLabel(team);
+            select.appendChild(opt);
+        });
+    }
+
+    const desired = selectedValue ?? previousValue ?? CUSTOM_TEAM_ID;
+    select.value = desired || CUSTOM_TEAM_ID;
+    select.dataset.lastValue = select.value;
+    applySelectFilter(select, select.dataset.filterQuery || "");
+}
+
 // ---------- State ----------
 const els =
 {
+    baselineTeam: document.getElementById("baselineTeam"),
+    baselineTeamSearch: document.getElementById("baselineTeamSearch"),
     currentRating: document.getElementById("currentRating"),
     currentGoalDiff: document.getElementById("currentGoalDiff"),
     currentSchedule: document.getElementById("currentSchedule"),
@@ -54,7 +131,7 @@ const baseline =
  * Each game:
  * {
  *   id,
- *   opponent,        // string (purely visual)
+ *   teamId,         // optional: ID from rankings-data.json
  *   sched,           // number or "" (blank shows in input; "" counts as 0 in math)
  *   goalDiff,        // number when chosen; null/undefined/"" means "--" and EXCLUDE from calcs
  *   ratingAfter,     // number
@@ -76,7 +153,8 @@ function saveBaselineToStorage()
         rating:   toNum(els.currentRating?.value),
         goalDiff: toNum(els.currentGoalDiff?.value),
         sched:    toNum(els.currentSchedule?.value),
-        games:    Math.max(0, Math.floor(toNum(els.currentGames?.value)))
+        games:    Math.max(0, Math.floor(toNum(els.currentGames?.value))),
+        teamId:   els.baselineTeam?.value || CUSTOM_TEAM_ID
     };
 
     try
@@ -114,6 +192,171 @@ function applyBaselineToInputs(b)
     if (els.currentGoalDiff) { els.currentGoalDiff.value = (b.goalDiff ?? "").toString(); }
     if (els.currentSchedule) { els.currentSchedule.value = (b.sched    ?? "").toString(); }
     if (els.currentGames)    { els.currentGames.value    = (b.games    ?? "").toString(); }
+    baselineTeamSelection = b.teamId || CUSTOM_TEAM_ID;
+    if (els.baselineTeam)
+    {
+        buildTeamOptions(els.baselineTeam, baselineTeamSelection, "Select baseline team");
+    }
+}
+
+function applyTeamStatsToBaseline(team)
+{
+    if (!team)
+    {
+        return;
+    }
+
+    const toFixed = (value) =>
+    {
+        if (value === null || typeof value === "undefined" || value === "")
+        {
+            return "";
+        }
+        return Number(value).toFixed(2);
+    };
+
+    if (els.currentRating)
+    {
+        els.currentRating.value = toFixed(team.rating);
+    }
+    if (els.currentGoalDiff)
+    {
+        els.currentGoalDiff.value = toFixed(team.totalGoalDifferential);
+    }
+    if (els.currentSchedule)
+    {
+        els.currentSchedule.value = toFixed(team.totalOpponentRating);
+    }
+    if (els.currentGames)
+    {
+        const gamesVal = Number(team.totalGames);
+        els.currentGames.value = Number.isFinite(gamesVal) ? gamesVal : "";
+    }
+    recalcAll();
+}
+
+function applyCustomBaselineDefaults()
+{
+    if (els.currentRating)   { els.currentRating.value = "0"; }
+    if (els.currentGoalDiff) { els.currentGoalDiff.value = "0"; }
+    if (els.currentSchedule) { els.currentSchedule.value = "0"; }
+    if (els.currentGames)    { els.currentGames.value = "0"; }
+    recalcAll();
+}
+
+function handleBaselineTeamSelection(force = false)
+{
+    if (!els.baselineTeam)
+    {
+        return;
+    }
+    const value = els.baselineTeam.value || CUSTOM_TEAM_ID;
+    const last = els.baselineTeam.dataset.lastValue || "";
+    if (!force && value === last)
+    {
+        return;
+    }
+    els.baselineTeam.dataset.lastValue = value;
+    baselineTeamSelection = value;
+
+    if (value === CUSTOM_TEAM_ID)
+    {
+        applyCustomBaselineDefaults();
+        return;
+    }
+
+    const team = getTeamById(value);
+    if (team)
+    {
+        applyTeamStatsToBaseline(team);
+    }
+}
+
+function applyTeamSelectionToGame(select, game, force = false)
+{
+    if (!select || !game)
+    {
+        return;
+    }
+
+    const teamId = select.value || CUSTOM_TEAM_ID;
+    const last = select.dataset.lastValue || "";
+    if (!force && teamId === last)
+    {
+        return;
+    }
+    select.dataset.lastValue = teamId;
+    game.teamId = teamId;
+
+    const schedInput = select.closest(".row")?.querySelector('input[data-role="sched"]');
+
+    if (teamId === CUSTOM_TEAM_ID)
+    {
+        game.sched = 0;
+        if (schedInput)
+        {
+            schedInput.value = "0";
+        }
+        recalcAll();
+        saveGamesToStorage(games);
+        return;
+    }
+
+    const team = getTeamById(teamId);
+    if (!team)
+    {
+        recalcAll();
+        saveGamesToStorage(games);
+        return;
+    }
+
+    const ratingValue = Number(team.rating);
+    if (Number.isFinite(ratingValue))
+    {
+        game.sched = ratingValue;
+        if (schedInput)
+        {
+            schedInput.value = ratingValue.toFixed(2);
+        }
+    }
+
+    recalcAll();
+    saveGamesToStorage(games);
+}
+
+function applySelectFilter(select, query)
+{
+    if (!select)
+    {
+        return;
+    }
+    const q = (query || "").toLowerCase();
+    Array.from(select.options).forEach((opt) =>
+    {
+        if (opt.value === "" || opt.value === CUSTOM_TEAM_ID)
+        {
+            opt.hidden = false;
+            return;
+        }
+        const label = opt.textContent?.toLowerCase() ?? "";
+        opt.hidden = q.length > 0 && !label.includes(q);
+    });
+}
+
+function attachTeamSearch(select, input)
+{
+    if (!select || !input)
+    {
+        return;
+    }
+    const handler = () =>
+    {
+        select.dataset.filterQuery = input.value.trim().toLowerCase();
+        applySelectFilter(select, select.dataset.filterQuery);
+    };
+    input.value = select.dataset.filterQuery || "";
+    input.addEventListener("input", handler);
+    applySelectFilter(select, select.dataset.filterQuery || "");
 }
 
 function saveGamesToStorage(list)
@@ -146,6 +389,75 @@ function loadGamesFromStorage()
     }
 }
 
+function hydrateTeamData(payload)
+{
+    if (!payload)
+    {
+        return false;
+    }
+    const teams = Array.isArray(payload?.teams) ? [...payload.teams] : [];
+    teams.sort((a, b) =>
+    {
+        const rankA = Number(a.rank);
+        const rankB = Number(b.rank);
+        if (Number.isFinite(rankA) && Number.isFinite(rankB))
+        {
+            return rankA - rankB;
+        }
+        if (Number.isFinite(rankA)) { return -1; }
+        if (Number.isFinite(rankB)) { return 1; }
+        return 0;
+    });
+
+    teamData.teams = teams;
+    teamData.map.clear();
+    teams.forEach((team) =>
+    {
+        const id = String(team.teamID ?? team.teamId ?? "");
+        if (id)
+        {
+            teamData.map.set(id, team);
+        }
+    });
+    teamData.ready = true;
+    teamData.error = false;
+
+    buildTeamOptions(els.baselineTeam, baselineTeamSelection, "Select baseline team");
+    renderGames();
+    recalcAll();
+    return true;
+}
+
+function loadTeamData()
+{
+    if (window.__RANKINGS_DATA__)
+    {
+        hydrateTeamData(window.__RANKINGS_DATA__);
+        return;
+    }
+
+    fetch("rankings-data.json")
+        .then((res) =>
+        {
+            if (!res.ok)
+            {
+                throw new Error(`HTTP ${res.status}`);
+            }
+            return res.json();
+        })
+        .then((data) =>
+        {
+            window.__RANKINGS_DATA__ = data;
+            hydrateTeamData(data);
+        })
+        .catch((err) =>
+        {
+            console.warn("Unable to load rankings data:", err);
+            teamData.error = true;
+            buildTeamOptions(els.baselineTeam, baselineTeamSelection, "Select baseline team");
+        });
+}
+
 // ---------- Rendering ----------
 function renderGames()
 {
@@ -160,27 +472,46 @@ function renderGames()
         const row = document.createElement("div");
         row.className = "row";
 
-        // Opponent name (NEW, first)
-        const lblOpp = document.createElement("label");
-        lblOpp.textContent = "Opponent";
-        const inpOpp = document.createElement("input");
-        inpOpp.type = "text";
-        inpOpp.placeholder = "Name";
-        inpOpp.value = g.opponent ?? "";
-        inpOpp.dataset.role = "opponent";
-        inpOpp.addEventListener("input", onGameInput);
-        lblOpp.appendChild(inpOpp);
+        // Team selector
+        const lblTeam = document.createElement("label");
+        lblTeam.textContent = "Select Team";
+        const teamWrapper = document.createElement("div");
+        teamWrapper.className = "team-selector";
+        const searchInput = document.createElement("input");
+        searchInput.type = "search";
+        searchInput.className = "team-search";
+        searchInput.placeholder = "Search team";
+        searchInput.autocomplete = "off";
+        const selTeam = document.createElement("select");
+        selTeam.dataset.role = "teamSelect";
+        buildTeamOptions(selTeam, g.teamId ?? "", "Select opponent");
+        const applySelection = (force = false) => applyTeamSelectionToGame(selTeam, g, force);
+        selTeam.addEventListener("change", () => applySelection(true));
+        selTeam.addEventListener("click", () =>
+        {
+            if (selTeam.value === (selTeam.dataset.lastValue || ""))
+            {
+                applySelection(true);
+            }
+        });
+        attachTeamSearch(selTeam, searchInput);
+        teamWrapper.appendChild(searchInput);
+        teamWrapper.appendChild(selTeam);
+        lblTeam.appendChild(teamWrapper);
 
-        // Opp. Ranking (second) — starts BLANK (not 0)
+        // Opp. Rating input
         const lblSch = document.createElement("label");
-        lblSch.textContent = "Opp. Ranking";
+        lblSch.textContent = "Opp. Rating";
         const inpSch = document.createElement("input");
         inpSch.type = "number";
         inpSch.step = "0.01";
         inpSch.inputMode = "decimal";
-        inpSch.placeholder = "Rank";
+        inpSch.placeholder = "Rating";
         // if stored as "" keep it blank; otherwise show the number
-        inpSch.value = (g.sched === "" || g.sched === null || g.sched === undefined) ? "" : String(g.sched);
+        const schedValue = (g.sched === "" || g.sched === null || typeof g.sched === "undefined")
+            ? ""
+            : (typeof g.sched === "number" ? g.sched.toFixed(2) : String(g.sched));
+        inpSch.value = schedValue;
         inpSch.dataset.role = "sched";
         inpSch.addEventListener("input", onGameInput);
         lblSch.appendChild(inpSch);
@@ -246,7 +577,7 @@ function renderGames()
         });
 
         // New order: Opponent -> Opp. Ranking -> Goal Differential -> After/Remove
-        row.appendChild(lblOpp);
+        row.appendChild(lblTeam);
         row.appendChild(lblSch);
         row.appendChild(lblGD);
         row.appendChild(after);
@@ -279,10 +610,30 @@ function computeBreakEvenGoal(prevGD, prevSched, prevGames, schedThisGame, targe
         return { x: 0, note: "Break-even not defined (0 prior games)" };
     }
 
+    const targetRounded = fmt(targetRating);
+    const tieRating = computeRating(prevGD, prevSched + schedThisGame, n + 1);
+    if (fmt(tieRating) === targetRounded)
+    {
+        return { x: 0, note: "Break-even ≈ tie" };
+    }
+
     const desiredTotal = targetRating * (n + 1);
     const currentWithoutGoal = prevGD + prevSched + schedThisGame;
     const xStar = desiredTotal - currentWithoutGoal;
-    const best = Math.ceil(xStar);
+    const EPS = 1e-4;
+    let best;
+    if (Math.abs(xStar) <= EPS)
+    {
+        best = 0;
+    }
+    else if (xStar > 0)
+    {
+        best = Math.ceil(xStar - EPS);
+    }
+    else
+    {
+        best = Math.floor(xStar + EPS);
+    }
 
     let note;
     if (best > 0)
@@ -359,9 +710,13 @@ function recalcAll()
     const delta = finalRating - baselineRating;
 
     // Update main display with sign/color
-    els.ratingDisplay.textContent = fmt(finalRating);
-    els.ratingDisplay.classList.toggle("positive", delta > 0.00001);
-    els.ratingDisplay.classList.toggle("negative", delta < -0.00001);
+    const finalText = fmt(finalRating);
+    const baseText = fmt(baselineRating);
+    els.ratingDisplay.textContent = finalText;
+    const isPositive = parseFloat(finalText) > parseFloat(baseText);
+    const isNegative = parseFloat(finalText) < parseFloat(baseText);
+    els.ratingDisplay.classList.toggle("positive", isPositive);
+    els.ratingDisplay.classList.toggle("negative", isNegative);
 
     const sign = delta > 0 ? "+" : (delta < 0 ? "−" : "±");
     document.getElementById("ratingDelta").textContent = `${sign}${fmt(Math.abs(delta))} vs current`;
@@ -397,11 +752,9 @@ function onGameInput(ev)
         return;
     }
 
-    if (role === "opponent")
+    if (role === "teamSelect")
     {
-        games[idx].opponent = input.value;
-        saveGamesToStorage(games);
-        // no recalc needed (visual only)
+        applyTeamSelectionToGame(input, games[idx], true);
         return;
     }
 
@@ -456,6 +809,19 @@ els.toggleGoalDiffSign.addEventListener("click", () =>
     recalcAll();
 });
 
+if (els.baselineTeam)
+{
+    const baselineHandler = (force = false) => handleBaselineTeamSelection(force);
+    els.baselineTeam.addEventListener("change", () => baselineHandler(true));
+    els.baselineTeam.addEventListener("click", () =>
+    {
+        if (els.baselineTeam.value === (els.baselineTeam.dataset.lastValue || ""))
+        {
+            baselineHandler(true);
+        }
+    });
+}
+
 // Baseline button — snapshot current inputs (and persist)
 els.setBaseline.addEventListener("click", () =>
 {
@@ -470,13 +836,13 @@ els.setBaseline.addEventListener("click", () =>
 });
 
 // Add game (and persist)
-// New row defaults: opponent "", sched "", goalDiff null (--> "--" by default)
+// New row defaults: custom team, sched "", goalDiff null (--> "--" by default)
 els.addGame.addEventListener("click", () =>
 {
     games.push(
     {
         id: nextId++,
-        opponent: "",
+        teamId: CUSTOM_TEAM_ID,
         sched: "",
         goalDiff: null,
         ratingAfter: 0,
@@ -491,6 +857,7 @@ els.addGame.addEventListener("click", () =>
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", () =>
 {
+    attachTeamSearch(els.baselineTeam, els.baselineTeamSearch);
     // 1) Load baseline and apply
     const savedBaseline = loadBaselineFromStorage();
     if (savedBaseline)
@@ -507,7 +874,7 @@ document.addEventListener("DOMContentLoaded", () =>
         {
             return {
                 id: g.id,
-                opponent: g.opponent ?? "",
+                teamId: g.teamId ?? CUSTOM_TEAM_ID,
                 sched: (g.sched === 0 && String(g.schedRaw) === "") ? "" : (g.sched ?? ""), // be forgiving
                 goalDiff: (typeof g.goalDiff === "number" && Number.isFinite(g.goalDiff)) ? g.goalDiff : null,
                 ratingAfter: g.ratingAfter ?? 0,
@@ -523,10 +890,12 @@ document.addEventListener("DOMContentLoaded", () =>
     else
     {
         games = [
-            { id: nextId++, opponent: "", sched: "", goalDiff: null, ratingAfter: 0, breakEvenGoal: 0, breakEvenNote: "" }
+            { id: nextId++, teamId: CUSTOM_TEAM_ID, sched: "", goalDiff: null, ratingAfter: 0, breakEvenGoal: 0, breakEvenNote: "" }
         ];
     }
 
+    buildTeamOptions(els.baselineTeam, baselineTeamSelection, "Select baseline team");
     renderGames();
     recalcAll();
+    loadTeamData();
 });

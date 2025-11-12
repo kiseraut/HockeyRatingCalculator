@@ -16,6 +16,19 @@
         <section id="inputs" class="card">
             <h2>Current Stats (Baseline)</h2>
             <div class="grid grid-4">
+                <label class="full-span">Select Team
+                    <div class="team-selector">
+                        <input
+                            type="search"
+                            id="baselineTeamSearch"
+                            class="team-search"
+                            placeholder="Search team"
+                            autocomplete="off" />
+                        <select id="baselineTeam" aria-label="Choose baseline team">
+                            <option value="">Loading teams…</option>
+                        </select>
+                    </div>
+                </label>
                 <label>Current Rating
                     <input type="number" id="currentRating" value="" step="0.01" inputmode="decimal" />
                 </label>
@@ -58,6 +71,7 @@
         </section>
     </main>
 
+    <script src="rankings-data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
