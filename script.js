@@ -198,7 +198,6 @@ function getSessionElements(root)
         currentGoalDiff: root.querySelector('[data-role="currentGoalDiff"]'),
         currentSchedule: root.querySelector('[data-role="currentSchedule"]'),
         currentGames: root.querySelector('[data-role="currentGames"]'),
-        setBaseline: root.querySelector('[data-role="setBaseline"]'),
         addGame: root.querySelector('[data-role="addGame"]'),
         gameList: root.querySelector('[data-role="gameList"]'),
         ratingDisplay: root.querySelector('[data-role="ratingDisplay"]'),
@@ -250,7 +249,9 @@ function createDefaultGame(id)
         goalDiff: null,
         ratingAfter: 0,
         breakEvenGoal: 0,
-        breakEvenNote: ""
+        breakEvenNote: "",
+        expectedGoal: 0,
+        expectedNote: ""
     };
 }
 
@@ -344,16 +345,6 @@ SessionController.prototype.attachEvents = function()
         });
     }
 
-    if (this.els.setBaseline)
-    {
-        this.els.setBaseline.addEventListener("click", () =>
-        {
-            this.els.currentGoalDiff.value = sanitizeSignedDecimal(this.els.currentGoalDiff.value);
-            this.recalcAll();
-            this.manager.saveAll();
-        });
-    }
-
     if (this.els.addGame)
     {
         this.els.addGame.addEventListener("click", () =>
@@ -364,6 +355,7 @@ SessionController.prototype.attachEvents = function()
             this.manager.saveAll();
         });
     }
+
 
     if (this.els.removeSession)
     {
@@ -591,7 +583,9 @@ SessionController.prototype.loadGames = function(list)
                 goalDiff: (typeof g.goalDiff === "number" && Number.isFinite(g.goalDiff)) ? g.goalDiff : null,
                 ratingAfter: g.ratingAfter ?? 0,
                 breakEvenGoal: g.breakEvenGoal ?? 0,
-                breakEvenNote: g.breakEvenNote ?? ""
+                breakEvenNote: g.breakEvenNote ?? "",
+                expectedGoal: g.expectedGoal ?? 0,
+                expectedNote: g.expectedNote ?? ""
             };
         });
 
@@ -698,11 +692,18 @@ SessionController.prototype.renderGames = function()
         // After rating
         const after = document.createElement("div");
         after.className = "after";
-        after.innerHTML = `Rating after game ${index + 1}: <span class="val">${fmt(g.ratingAfter)}</span>`;
+        const ratingText = (typeof g.ratingAfter === "number" && Number.isFinite(g.ratingAfter))
+            ? fmt(g.ratingAfter)
+            : "--";
+        after.innerHTML = `Rating after game ${index + 1}: <span class="val">${ratingText}</span>`;
 
-        // Break-even line
+        // Break-even lines
+        const expected = document.createElement("div");
+        expected.className = "muted small breakeven expected";
+        expected.textContent = g.expectedNote || "";
+
         const be = document.createElement("div");
-        be.className = "muted small breakeven";
+        be.className = "muted small breakeven cumulative";
         be.textContent = g.breakEvenNote || "";
 
         // Remove button
@@ -728,6 +729,7 @@ SessionController.prototype.renderGames = function()
         row.appendChild(removeBtn);
 
         wrapper.appendChild(row);
+        wrapper.appendChild(expected);
         wrapper.appendChild(be);
         this.els.gameList.appendChild(wrapper);
     });
@@ -751,49 +753,64 @@ function computeBreakEvenGoal(prevGD, prevSched, prevGames, schedThisGame, targe
     const n = prevGames;
     if (n <= 0)
     {
-        return { x: 0, note: "Break-even not defined (0 prior games)" };
+        return { x: 0, defined: false };
     }
 
-    const targetRounded = fmt(targetRating);
-    const tieRating = computeRating(prevGD, prevSched + schedThisGame, n + 1);
-    if (fmt(tieRating) === targetRounded)
+    const gamesTotal = n + 1;
+    const schedTotal = prevSched + schedThisGame;
+    const baseTotal = prevGD + schedTotal;
+    const targetRounded = Number(fmt(targetRating));
+    const roundedRatingForGoal = (goalDiff) =>
     {
-        return { x: 0, note: "Break-even ~= tie" };
+        const rating = computeRating(prevGD + goalDiff, schedTotal, gamesTotal);
+        return Number(fmt(rating));
+    };
+
+    let candidate = Math.floor((targetRounded * gamesTotal) - baseTotal);
+    if (roundedRatingForGoal(candidate) < targetRounded)
+    {
+        candidate += 1;
+    }
+    while (roundedRatingForGoal(candidate - 1) >= targetRounded)
+    {
+        candidate -= 1;
     }
 
-    const desiredTotal = targetRating * (n + 1);
-    const currentWithoutGoal = prevGD + prevSched + schedThisGame;
-    const xStar = desiredTotal - currentWithoutGoal;
-    const EPS = 1e-4;
-    let best;
-    if (Math.abs(xStar) <= EPS)
-    {
-        best = 0;
-    }
-    else if (xStar > 0)
-    {
-        best = Math.ceil(xStar - EPS);
-    }
-    else
-    {
-        best = Math.ceil(xStar + EPS);
-    }
+    return { x: candidate, defined: true };
+}
 
-    let note;
-    if (best > 0)
+function formatCumulativeBreakEvenNote(goalDiff, defined)
+{
+    if (!defined)
     {
-        note = `Break-even ~= win by ${best}`;
+        return "Cumulative break-even: not defined (0 prior games)";
     }
-    else if (best < 0)
+    if (goalDiff > 0)
     {
-        note = `Break-even ~= can lose by ${Math.abs(best)}`;
+        return `Cumulative break-even: win by ${goalDiff}`;
     }
-    else
+    if (goalDiff < 0)
     {
-        note = "Break-even ~= tie";
+        return `Cumulative break-even: can lose by ${Math.abs(goalDiff)}`;
     }
+    return "Cumulative break-even: tie";
+}
 
-    return { x: best, note };
+function formatExpectedNote(goalDiff, defined)
+{
+    if (!defined)
+    {
+        return "Should win/lose by: not defined (0 prior games)";
+    }
+    if (goalDiff > 0)
+    {
+        return `Should win by ${goalDiff}`;
+    }
+    if (goalDiff < 0)
+    {
+        return `Should lose by ${Math.abs(goalDiff)}`;
+    }
+    return "Should tie";
 }
 
 SessionController.prototype.recalcAll = function()
@@ -818,12 +835,18 @@ SessionController.prototype.recalcAll = function()
         {
             const be = computeBreakEvenGoal(runningGD, runningSched, runningGames, schedVal, baselineRating);
             g.breakEvenGoal = be.x;
-            g.breakEvenNote = be.note;
+            g.breakEvenNote = formatCumulativeBreakEvenNote(be.x, be.defined);
+
+            const expected = computeBreakEvenGoal(baseGD, baseSched, baseGames, schedVal, baselineRating);
+            g.expectedGoal = expected.x;
+            g.expectedNote = formatExpectedNote(expected.x, expected.defined);
         }
         else
         {
             g.breakEvenGoal = null;
             g.breakEvenNote = "";
+            g.expectedGoal = null;
+            g.expectedNote = "";
         }
 
         if (hasGD)
@@ -836,13 +859,20 @@ SessionController.prototype.recalcAll = function()
         }
         else
         {
-            g.ratingAfter = computeRating(runningGD, runningSched, runningGames);
+            g.ratingAfter = null;
         }
     });
 
-    const finalRating = this.games.length > 0
-        ? this.games[this.games.length - 1].ratingAfter
-        : baselineRating;
+    let finalRating = baselineRating;
+    for (let i = this.games.length - 1; i >= 0; i -= 1)
+    {
+        const rating = this.games[i].ratingAfter;
+        if (typeof rating === "number" && Number.isFinite(rating))
+        {
+            finalRating = rating;
+            break;
+        }
+    }
 
     const delta = finalRating - baselineRating;
 
@@ -863,13 +893,27 @@ SessionController.prototype.recalcAll = function()
         const span = node.querySelector(".val");
         if (span)
         {
-            span.textContent = fmt(this.games[i].ratingAfter);
+            const ratingValue = this.games[i].ratingAfter;
+            const ratingText = (typeof ratingValue === "number" && Number.isFinite(ratingValue))
+                ? fmt(ratingValue)
+                : "--";
+            span.textContent = ratingText;
+            const isUp = ratingText !== "--" && parseFloat(ratingText) > parseFloat(baseText);
+            const isDown = ratingText !== "--" && parseFloat(ratingText) < parseFloat(baseText);
+            span.classList.toggle("positive", isUp);
+            span.classList.toggle("negative", isDown);
         }
 
-        const be = node.querySelector(".breakeven");
+        const be = node.querySelector(".breakeven.cumulative");
         if (be)
         {
             be.textContent = this.games[i].breakEvenNote || "";
+        }
+
+        const expected = node.querySelector(".breakeven.expected");
+        if (expected)
+        {
+            expected.textContent = this.games[i].expectedNote || "";
         }
     });
 };
@@ -1256,6 +1300,7 @@ function hydrateTeamData(payload)
 
     teamData.teams = teams;
     teamData.map.clear();
+    teamData.source = payload?.source || teamData.source;
     teams.forEach((team) =>
     {
         const id = String(team.teamID ?? team.teamId ?? "");

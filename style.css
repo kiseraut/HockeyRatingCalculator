@@ -386,13 +386,29 @@ select:focus
         justify-self: start;
         width: 100%;
     }
+
 }
 
 .after
 {
     font-weight: 700;
-    color: var(--brand-2);
+    color: var(--text);
     font-size: 1.05rem;
+}
+
+.after .val
+{
+    color: var(--text);
+}
+
+.after .val.positive
+{
+    color: var(--brand-2);
+}
+
+.after .val.negative
+{
+    color: var(--danger);
 }
 
 .big-number
