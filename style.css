@@ -181,6 +181,13 @@ body
     gap: 12px;
 }
 
+.meta-lines
+{
+    display: grid;
+    gap: 4px;
+    margin: 6px 0 10px 0;
+}
+
 .grid
 {
     display: grid;

@@ -36,7 +36,9 @@ const teamData =
     teams: [],
     map: new Map(),
     ready: false,
-    error: false
+    error: false,
+    source: null,
+    scrapedAt: null
 };
 
 function getTeamById(id)
@@ -198,6 +200,8 @@ function getSessionElements(root)
         currentGoalDiff: root.querySelector('[data-role="currentGoalDiff"]'),
         currentSchedule: root.querySelector('[data-role="currentSchedule"]'),
         currentGames: root.querySelector('[data-role="currentGames"]'),
+        rankingsDate: root.querySelector('[data-role="rankingsDate"]'),
+        baselineSync: root.querySelector('[data-role="baselineSync"]'),
         addGame: root.querySelector('[data-role="addGame"]'),
         gameList: root.querySelector('[data-role="gameList"]'),
         ratingDisplay: root.querySelector('[data-role="ratingDisplay"]'),
@@ -255,6 +259,48 @@ function createDefaultGame(id)
     };
 }
 
+function formatDateLabel(isoString)
+{
+    if (!isoString)
+    {
+        return "Unknown";
+    }
+    const date = new Date(isoString);
+    if (Number.isNaN(date.getTime()))
+    {
+        return "Unknown";
+    }
+    return date.toISOString().slice(0, 10);
+}
+
+function formatAgeLabel(isoString)
+{
+    if (!isoString)
+    {
+        return "";
+    }
+    const date = new Date(isoString);
+    if (Number.isNaN(date.getTime()))
+    {
+        return "";
+    }
+    const diffMs = Date.now() - date.getTime();
+    if (!Number.isFinite(diffMs) || diffMs < 0)
+    {
+        return "";
+    }
+    const days = Math.floor(diffMs / 86400000);
+    if (days <= 0)
+    {
+        return "(today)";
+    }
+    if (days === 1)
+    {
+        return "(1 day old)";
+    }
+    return `(${days} days old)`;
+}
+
 // ---------- Session Controller ----------
 function SessionController(root, data, manager)
 {
@@ -263,6 +309,16 @@ function SessionController(root, data, manager)
     this.id = data.id;
     this.name = data.name;
     this.baselineTeamSelection = data?.baseline?.teamId ?? CUSTOM_TEAM_ID;
+    const storedAutoSync = data?.baseline?.autoSync;
+    if (typeof storedAutoSync === "boolean")
+    {
+        this.baselineAutoSync = storedAutoSync;
+    }
+    else
+    {
+        this.baselineAutoSync = this.baselineTeamSelection !== CUSTOM_TEAM_ID;
+    }
+    this.baselineSyncedAt = data?.baseline?.syncedAt || null;
     this.els = getSessionElements(root);
     this.games = [];
     this.nextId = Number(data.nextId) || 1;
@@ -294,6 +350,7 @@ SessionController.prototype.attachEvents = function()
     {
         this.els.currentGoalDiff.addEventListener("input", () =>
         {
+            this.markBaselineManual();
             const pos = this.els.currentGoalDiff.selectionStart;
             this.els.currentGoalDiff.value = sanitizeSignedDecimal(this.els.currentGoalDiff.value);
             try
@@ -310,6 +367,7 @@ SessionController.prototype.attachEvents = function()
     {
         this.els.currentRating.addEventListener("input", () =>
         {
+            this.markBaselineManual();
             this.recalcAll();
             this.manager.saveAll();
         });
@@ -319,6 +377,7 @@ SessionController.prototype.attachEvents = function()
     {
         this.els.currentSchedule.addEventListener("input", () =>
         {
+            this.markBaselineManual();
             this.recalcAll();
             this.manager.saveAll();
         });
@@ -328,6 +387,7 @@ SessionController.prototype.attachEvents = function()
     {
         this.els.currentGames.addEventListener("input", () =>
         {
+            this.markBaselineManual();
             this.recalcAll();
             this.manager.saveAll();
         });
@@ -337,6 +397,7 @@ SessionController.prototype.attachEvents = function()
     {
         this.els.toggleGoalDiffSign.addEventListener("click", () =>
         {
+            this.markBaselineManual();
             const v = toNum(this.els.currentGoalDiff.value);
             const flipped = -v;
             this.els.currentGoalDiff.value = String(flipped);
@@ -377,9 +438,42 @@ SessionController.prototype.updateSessionName = function(name)
     this.manager.updateTabLabel(this.id, nextName);
 };
 
+SessionController.prototype.updateBaselineMeta = function()
+{
+    if (this.els.rankingsDate)
+    {
+        const scraped = teamData.scrapedAt;
+        const age = formatAgeLabel(scraped);
+        this.els.rankingsDate.textContent = `Rankings data as of: ${formatDateLabel(scraped)} ${age}`.trim();
+    }
+
+    if (this.els.baselineSync)
+    {
+        if (!this.baselineAutoSync)
+        {
+            this.els.baselineSync.textContent = "Baseline: manual (not auto-synced)";
+        }
+        else
+        {
+            const syncedAt = this.baselineSyncedAt || teamData.scrapedAt;
+            this.els.baselineSync.textContent = `Baseline synced: ${formatDateLabel(syncedAt)}`;
+        }
+    }
+};
+
 SessionController.prototype.refreshTeamData = function()
 {
     buildTeamOptions(this.els.baselineTeam, this.baselineTeamSelection, "Select baseline team");
+    this.updateBaselineMeta();
+
+    if (this.baselineAutoSync && this.baselineTeamSelection !== CUSTOM_TEAM_ID)
+    {
+        const team = getTeamById(this.baselineTeamSelection);
+        if (team)
+        {
+            this.applyTeamStatsToBaseline(team);
+        }
+    }
     this.renderGames();
     this.recalcAll();
     const nextName = deriveSessionNameFromBaseline(this.els.baselineTeam, this.name);
@@ -396,7 +490,9 @@ SessionController.prototype.getBaselineState = function()
         goalDiff: normalizeBaselineValue(this.els.currentGoalDiff?.value),
         sched: normalizeBaselineValue(this.els.currentSchedule?.value),
         games: normalizeBaselineValue(this.els.currentGames?.value),
-        teamId: this.els.baselineTeam?.value || this.baselineTeamSelection || CUSTOM_TEAM_ID
+        teamId: this.els.baselineTeam?.value || this.baselineTeamSelection || CUSTOM_TEAM_ID,
+        autoSync: this.baselineAutoSync,
+        syncedAt: this.baselineSyncedAt
     };
 };
 
@@ -451,6 +547,9 @@ SessionController.prototype.applyTeamStatsToBaseline = function(team)
         const gamesVal = Number(team.totalGames);
         this.els.currentGames.value = Number.isFinite(gamesVal) ? gamesVal : "";
     }
+    this.baselineAutoSync = true;
+    this.baselineSyncedAt = teamData.scrapedAt || new Date().toISOString();
+    this.updateBaselineMeta();
     this.recalcAll();
     this.manager.saveAll();
 };
@@ -461,8 +560,22 @@ SessionController.prototype.applyCustomBaselineDefaults = function()
     if (this.els.currentGoalDiff) { this.els.currentGoalDiff.value = "0"; }
     if (this.els.currentSchedule) { this.els.currentSchedule.value = "0"; }
     if (this.els.currentGames)    { this.els.currentGames.value = "0"; }
+    this.baselineAutoSync = false;
+    this.baselineSyncedAt = null;
+    this.updateBaselineMeta();
     this.recalcAll();
     this.manager.saveAll();
+};
+
+SessionController.prototype.markBaselineManual = function()
+{
+    if (!this.baselineAutoSync)
+    {
+        return;
+    }
+    this.baselineAutoSync = false;
+    this.baselineSyncedAt = null;
+    this.updateBaselineMeta();
 };
 
 SessionController.prototype.handleBaselineTeamSelection = function(force = false)
@@ -1301,6 +1414,7 @@ function hydrateTeamData(payload)
     teamData.teams = teams;
     teamData.map.clear();
     teamData.source = payload?.source || teamData.source;
+    teamData.scrapedAt = payload?.scrapedAt || payload?.scraped_at || teamData.scrapedAt;
     teams.forEach((team) =>
     {
         const id = String(team.teamID ?? team.teamId ?? "");
