@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Hockey Ranker — Per-Game Ratings</title>
+    <title>Hockey Ranker - Per-Game Ratings</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
 </head>
@@ -12,65 +12,84 @@
         <p class="sub">Per-game ratings with instant cascading what-ifs</p>
     </header>
 
-    <main class="app">
-        <section id="inputs" class="card">
-            <h2>Current Stats (Baseline)</h2>
-            <div class="grid grid-4">
-                <label class="full-span">Select Team
-                    <div class="team-selector">
-                        <input
-                            type="search"
-                            id="baselineTeamSearch"
-                            class="team-search"
-                            placeholder="Search team"
-                            autocomplete="off" />
-                        <select id="baselineTeam" aria-label="Choose baseline team">
-                            <option value="">Loading teams…</option>
-                        </select>
-                    </div>
-                </label>
-                <label>Current Rating
-                    <input type="number" id="currentRating" value="" step="0.01" inputmode="decimal" />
-                </label>
-                <label>Current Goal Differential
-                    <div class="input-inline">
-                        <button type="button" id="toggleGoalDiffSign" class="btn ghost" aria-label="Toggle sign">±</button>
-                        <input
-                            id="currentGoalDiff"
-                            type="text"
-                            inputmode="decimal"
-                            placeholder=""
-                            value="" />
-                    </div>
-                </label>
-                <label>Current Schedule Strength
-                    <input type="number" id="currentSchedule" value="" step="0.01" inputmode="decimal" />
-                </label>
-                <label>Current Number of Games
-                    <input type="number" id="currentGames" value="" step="1" inputmode="numeric" />
-                </label>
-            </div>
-            <div class="actions">
-                <button id="setBaseline" class="btn primary">Set Baseline</button>
-            </div>
-            <p class="muted small">Rating = <code>(TotalGoalDiff / TotalGames) + (TotalSchedule / TotalGames)</code></p>
-        </section>
+    <div class="tabs-bar">
+        <div class="tabs-scroller">
+            <div class="tabs" id="tabs"></div>
+        </div>
+        <button id="addTab" class="btn ghost" type="button">+ Add Team</button>
+    </div>
 
-        <section id="games" class="card">
-            <div class="section-head">
-                <h2>Game Results</h2>
-                <button id="addGame" class="btn">Add Game</button>
-            </div>
-            <div id="gameList" class="stack"></div>
-        </section>
+    <main id="sessions"></main>
 
-        <section class="card highlight">
-            <h2>Updated Rating After Last Game</h2>
-            <div class="big-number" id="ratingDisplay">0.00</div>
-            <div class="muted small" id="ratingDelta"></div>
-            <div class="muted small" id="rankDisplay"></div>
+    <template id="sessionTemplate">
+        <section class="session app" data-session>
+            <div class="card session-toolbar">
+                <div class="session-meta">
+                    <div class="muted small">Team Session</div>
+                    <div class="session-name" data-role="sessionName">Team 1</div>
+                </div>
+                <button class="btn ghost" type="button" data-role="removeSession">Remove Session</button>
+            </div>
+
+            <section class="card" data-role="inputs">
+                <h2>Current Stats (Baseline)</h2>
+                <div class="grid grid-4">
+                    <label class="full-span">Select Team
+                        <div class="team-selector">
+                            <input
+                                type="search"
+                                data-role="baselineTeamSearch"
+                                class="team-search"
+                                placeholder="Search team"
+                                autocomplete="off" />
+                            <select data-role="baselineTeam" aria-label="Choose baseline team">
+                                <option value="">Loading teams...</option>
+                            </select>
+                        </div>
+                    </label>
+                    <label>Current Rating
+                        <input type="number" data-role="currentRating" value="" step="0.01" inputmode="decimal" />
+                    </label>
+                    <label>Current Goal Differential
+                        <div class="input-inline">
+                            <button type="button" data-role="toggleGoalDiffSign" class="btn ghost" aria-label="Toggle sign">+/-</button>
+                            <input
+                                data-role="currentGoalDiff"
+                                type="text"
+                                inputmode="decimal"
+                                placeholder=""
+                                value="" />
+                        </div>
+                    </label>
+                    <label>Current Schedule Strength
+                        <input type="number" data-role="currentSchedule" value="" step="0.01" inputmode="decimal" />
+                    </label>
+                    <label>Current Number of Games
+                        <input type="number" data-role="currentGames" value="" step="1" inputmode="numeric" />
+                    </label>
+                </div>
+                <div class="actions">
+                    <button data-role="setBaseline" class="btn primary" type="button">Set Baseline</button>
+                </div>
+                <p class="muted small">Rating = <code>(TotalGoalDiff / TotalGames) + (TotalSchedule / TotalGames)</code></p>
+            </section>
+
+            <section class="card" data-role="games">
+                <div class="section-head">
+                    <h2>Game Results</h2>
+                    <button data-role="addGame" class="btn" type="button">Add Game</button>
+                </div>
+                <div data-role="gameList" class="stack"></div>
+            </section>
+
+            <section class="card highlight" data-role="summary">
+                <h2>Updated Rating After Last Game</h2>
+                <div class="big-number" data-role="ratingDisplay">0.00</div>
+                <div class="muted small" data-role="ratingDelta"></div>
+                <div class="muted small" data-role="rankDisplay"></div>
+            </section>
         </section>
-    </main>
+    </template>
 
     <script src="rankings-data.js"></script>
     <script src="script.js"></script>
