@@ -181,6 +181,28 @@ body
     gap: 12px;
 }
 
+.section-actions
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-body
+{
+    margin-top: 10px;
+}
+
+.card.collapsed .section-body
+{
+    display: none;
+}
+
+.card.collapsed .section-head
+{
+    margin-bottom: 0;
+}
+
 .meta-lines
 {
     display: grid;

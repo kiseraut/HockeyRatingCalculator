@@ -31,13 +31,17 @@
                 <button class="btn ghost" type="button" data-role="removeSession">Remove Session</button>
             </div>
 
-            <section class="card" data-role="inputs">
-                <h2>Current Stats (Baseline)</h2>
-                <div class="meta-lines">
-                    <div class="muted small" data-role="rankingsDate">Rankings data as of: --</div>
-                    <div class="muted small" data-role="baselineSync">Baseline: --</div>
+            <section class="card" data-role="inputs" data-section="inputs">
+                <div class="section-head">
+                    <h2>Current Stats (Baseline)</h2>
+                    <button class="btn ghost" type="button" data-role="sectionToggle" data-target="inputs" aria-expanded="true">Collapse</button>
                 </div>
-                <div class="grid grid-4">
+                <div class="section-body">
+                    <div class="meta-lines">
+                        <div class="muted small" data-role="rankingsDate">Rankings data as of: --</div>
+                        <div class="muted small" data-role="baselineSync">Baseline: --</div>
+                    </div>
+                    <div class="grid grid-4">
                     <label class="full-span">Select Team
                         <div class="team-selector">
                             <input
@@ -71,23 +75,34 @@
                     <label>Current Number of Games
                         <input type="number" data-role="currentGames" value="" step="1" inputmode="numeric" />
                     </label>
+                    </div>
+                    <p class="muted small">Rating = <code>(TotalGoalDiff / TotalGames) + (TotalSchedule / TotalGames)</code></p>
                 </div>
-                <p class="muted small">Rating = <code>(TotalGoalDiff / TotalGames) + (TotalSchedule / TotalGames)</code></p>
             </section>
 
-            <section class="card" data-role="games">
+            <section class="card" data-role="games" data-section="games">
                 <div class="section-head">
                     <h2>Game Results</h2>
-                    <button data-role="addGame" class="btn" type="button">Add Game</button>
+                    <div class="section-actions">
+                        <button class="btn ghost" type="button" data-role="sectionToggle" data-target="games" aria-expanded="true">Collapse</button>
+                        <button data-role="addGame" class="btn" type="button">Add Game</button>
+                    </div>
                 </div>
-                <div data-role="gameList" class="stack"></div>
+                <div class="section-body">
+                    <div data-role="gameList" class="stack"></div>
+                </div>
             </section>
 
-            <section class="card highlight" data-role="summary">
-                <h2>Updated Rating After Last Game</h2>
-                <div class="big-number" data-role="ratingDisplay">0.00</div>
-                <div class="muted small" data-role="ratingDelta"></div>
-                <div class="muted small" data-role="rankDisplay"></div>
+            <section class="card highlight" data-role="summary" data-section="summary">
+                <div class="section-head">
+                    <h2>Updated Rating After Last Game</h2>
+                    <button class="btn ghost" type="button" data-role="sectionToggle" data-target="summary" aria-expanded="true">Collapse</button>
+                </div>
+                <div class="section-body">
+                    <div class="big-number" data-role="ratingDisplay">0.00</div>
+                    <div class="muted small" data-role="ratingDelta"></div>
+                    <div class="muted small" data-role="rankDisplay"></div>
+                </div>
             </section>
         </section>
     </template>

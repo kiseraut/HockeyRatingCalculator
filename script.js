@@ -333,6 +333,23 @@ SessionController.prototype.attachEvents = function()
 {
     attachTeamSearch(this.els.baselineTeam, this.els.baselineTeamSearch, "Select baseline team");
 
+    const toggles = Array.from(this.root.querySelectorAll('[data-role="sectionToggle"]'));
+    toggles.forEach((btn) =>
+    {
+        btn.addEventListener("click", () =>
+        {
+            const target = btn.dataset.target;
+            const section = this.root.querySelector(`[data-section="${target}"]`);
+            if (!section)
+            {
+                return;
+            }
+            const isCollapsed = section.classList.toggle("collapsed");
+            btn.textContent = isCollapsed ? "Expand" : "Collapse";
+            btn.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+        });
+    });
+
     if (this.els.baselineTeam)
     {
         const baselineHandler = (force = false) => this.handleBaselineTeamSelection(force);
@@ -1092,38 +1109,33 @@ function computeRankText(finalRating, baselineRating, teamId)
         }
     }
 
-    if (teamId === CUSTOM_TEAM_ID)
-    {
-        return `Projected rank ~= #${projectedRank}`;
-    }
-
     const team = getTeamById(teamId);
     if (!team)
     {
-        return `Projected rank ~= #${projectedRank}`;
+        return `Projected rank: #${projectedRank} (current rank unknown)`;
     }
 
     const baselineRank = Number(team.rank);
     if (!Number.isFinite(baselineRank))
     {
-        return `Projected rank ~= #${projectedRank}`;
+        return `Projected rank: #${projectedRank} (current rank unknown)`;
     }
 
     if (Math.abs(finalValue - baselineValue) < 0.005)
     {
-        return `Projected rank ~= #${baselineRank}`;
+        return `Projected rank stays at #${baselineRank}`;
     }
 
     if (projectedRank < baselineRank)
     {
-        return `Projected rank up #${projectedRank}`;
+        return `Projected rank up from #${baselineRank} to #${projectedRank}`;
     }
     if (projectedRank > baselineRank)
     {
-        return `Projected rank down #${projectedRank}`;
+        return `Projected rank down from #${baselineRank} to #${projectedRank}`;
     }
 
-    return `Projected rank ~= #${baselineRank}`;
+    return `Projected rank stays at #${baselineRank}`;
 }
 
 // ---------- Session Input Handling ----------
