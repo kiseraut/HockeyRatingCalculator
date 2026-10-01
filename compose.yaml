@@ -1,0 +1,57 @@
+services:
+  preview:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:4001:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./style.css:/usr/share/nginx/html/style.css:ro
+      - ./team-picker.js:/usr/share/nginx/html/team-picker.js:ro
+      - ./batch-collector.js:/usr/share/nginx/html/batch-collector.js:ro
+      - ./script.js:/usr/share/nginx/html/script.js:ro
+      - ./manual-data.js:/usr/share/nginx/html/manual-data.js:ro
+      - ./manual-import.js:/usr/share/nginx/html/manual-import.js:ro
+      - ./rankings-data.json:/usr/share/nginx/html/rankings-data.json:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+  rankings-updater:
+    profiles: [automatic]
+    build: .
+    init: true
+    shm_size: 1gb
+    ports:
+      - "127.0.0.1:6080:6080"
+    restart: unless-stopped
+    environment:
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      ALERT_TO: ${ALERT_TO:-}
+      UPDATE_INTERVAL_HOURS: ${UPDATE_INTERVAL_HOURS:-24}
+      PUBLISH: ${PUBLISH:-false}
+      REPOSITORY_URL: https://github.com/kiseraut/HockeyRatingCalculator.git
+      REPOSITORY_BRANCH: main
+      GIT_AUTHOR_NAME: Hockey Rankings Updater
+      GIT_AUTHOR_EMAIL: rankings-updater@users.noreply.github.com
+    volumes:
+      - rankings-state:/state
+      - ./secrets:/run/secrets:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 5m
+      timeout: 10s
+      start_period: 15m
+      retries: 1
+volumes:
+  rankings-state:

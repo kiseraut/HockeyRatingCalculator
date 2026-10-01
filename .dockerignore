@@ -1,0 +1,7 @@
+.git
+secrets
+.env
+node_modules
+artifacts
+rankings-data.*
+**/node_modules

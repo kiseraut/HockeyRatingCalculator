@@ -1,4 +1,4 @@
-{
+window.__RANKINGS_DATA__ = {
   "source": "https://myhockeyrankings.com/rank.php?y=2026&v=114",
   "scrapedAt": "2026-10-01T13:05:45.169Z",
   "collectionMethod": "manual",
@@ -2407,4 +2407,4 @@
     }
   ],
   "skippedRows": 0
-}
+};

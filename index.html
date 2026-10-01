@@ -1,113 +1,322 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Hockey Ranker - Per-Game Ratings</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-    <header class="app-header">
-        <h1>Hockey Ranker</h1>
-        <p class="sub">Per-game ratings with instant cascading what-ifs</p>
-    </header>
+    <head>
+        <meta charset="UTF-8" />
+        <title>14U Rating Calculator</title>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+        <meta name="theme-color" content="#102c35" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <h1>Rating calculator</h1>
+            <a
+                class="season-link"
+                href="https://myhockeyrankings.com/rank.php?y=2026&amp;v=114"
+                target="_blank"
+                rel="noopener"
+                >2026–27 <span>USA 14U ↗</span></a
+            >
+        </header>
 
-    <div class="tabs-bar">
-        <div class="tabs-scroller">
-            <div class="tabs" id="tabs"></div>
-        </div>
-        <button id="addTab" class="btn ghost" type="button">+ Add Team</button>
-    </div>
-
-    <main id="sessions"></main>
-
-    <template id="sessionTemplate">
-        <section class="session app" data-session>
-            <div class="card session-toolbar">
-                <div class="session-meta">
-                    <div class="muted small">Team Session</div>
-                    <div class="session-name" data-role="sessionName">Team 1</div>
-                </div>
-                <button class="btn ghost" type="button" data-role="removeSession">Remove Session</button>
+        <div class="tabs-bar">
+            <div class="tabs-scroller">
+                <div class="tabs" id="tabs"></div>
             </div>
+            <button id="addTab" class="btn ghost" type="button">
+                + Add Team
+            </button>
+        </div>
 
-            <section class="card" data-role="inputs" data-section="inputs">
-                <div class="section-head">
-                    <h2>Current Stats (Baseline)</h2>
-                    <button class="btn ghost" type="button" data-role="sectionToggle" data-target="inputs" aria-expanded="true">Collapse</button>
-                </div>
-                <div class="section-body">
-                    <div class="meta-lines">
-                        <div class="muted small" data-role="rankingsDate">Rankings data as of: --</div>
-                        <div class="muted small" data-role="baselineSync">Baseline: --</div>
-                    </div>
-                    <div class="grid grid-4">
-                    <label class="full-span">Select Team
-                        <div class="team-selector">
-                            <input
-                                type="search"
-                                data-role="baselineTeamSearch"
-                                class="team-search"
-                                placeholder="Search team"
-                                autocomplete="off" />
-                            <select data-role="baselineTeam" aria-label="Choose baseline team">
-                                <option value="">Loading teams...</option>
-                            </select>
+        <div id="dataStatus" class="data-status" role="status">
+            Loading 2026–27 rankings…
+        </div>
+        <details id="manualImport" class="manual-import">
+            <summary>Import rankings</summary>
+            <p>
+                In Firefox, open
+                <a
+                    href="https://myhockeyrankings.com/rank.php?y=2026&amp;v=114"
+                    target="_blank"
+                    rel="noopener"
+                    >MHR 14U rankings</a
+                >. Copy the table, including its headings, and paste below.
+            </p>
+            <label for="importText">Rankings table</label>
+            <textarea
+                id="importText"
+                rows="5"
+                placeholder="Rank    Team    Rating    Record    AGD    SCHED"
+            ></textarea>
+            <button id="previewImport" class="btn" type="button">
+                Check pasted data
+            </button>
+            <details class="collection-help">
+                <summary>Collect rankings and Math totals</summary>
+                <p>
+                    Drag <a id="batchCollectorLink">Collect MHR data</a> to your
+                    bookmarks toolbar. Open the MHR rankings page, let the table
+                    load with all teams shown, then click the bookmark and Start. Keep both tabs open while it visits Math pages for ranks 1-200 only. Check that the panel says 200 teams loaded. If fewer appear, show all teams and click Add shown teams. Pause and resume as needed; progress stays in the rankings tab. Download when complete. Import the downloaded file
+                    below. Only rows currently displayed are collected.
+                </p>
+            </details>
+            <label for="importFile"
+                >Or choose a collected / exported JSON file</label
+            >
+            <input
+                id="importFile"
+                type="file"
+                accept=".json,application/json"
+            />
+            <pre id="importPreview"></pre>
+            <p id="importMessage" role="status">Nothing imported yet.</p>
+            <label class="confirm-import"
+                ><input id="confirmSeason" type="checkbox" /> This is the
+                2026–27 USA 14U list.</label
+            >
+            <div class="import-actions">
+                <button id="applyImport" class="btn" type="button" disabled>
+                    Use these teams
+                </button>
+                <button
+                    id="exportImport"
+                    class="btn ghost"
+                    type="button"
+                    disabled
+                >
+                    Export for another device
+                </button>
+                <button id="useHosted" class="btn ghost" type="button">
+                    Use hosted data
+                </button>
+            </div>
+            <p class="small muted">
+                Imports stay in this browser. To use them on your iPhone, export
+                the JSON and import it in the updated calculator there. Import
+                the selected team’s Rating Math totals in Team stats before
+                calculating projections.
+            </p>
+        </details>
+        <main id="sessions"></main>
+
+        <template id="sessionTemplate">
+            <section class="session app" data-session>
+                <div class="card session-toolbar">
+                    <div class="session-meta">
+                        <div class="session-name" data-role="sessionName">
+                            Team 1
                         </div>
-                    </label>
-                    <label>Current Rating
-                        <input type="number" data-role="currentRating" value="" step="0.01" inputmode="decimal" />
-                    </label>
-                    <label>Current Goal Differential
-                        <div class="input-inline">
-                            <button type="button" data-role="toggleGoalDiffSign" class="btn ghost" aria-label="Toggle sign">+/-</button>
-                            <input
-                                data-role="currentGoalDiff"
-                                type="text"
-                                inputmode="decimal"
-                                placeholder=""
-                                value="" />
+                    </div>
+                    <button
+                        class="btn ghost"
+                        type="button"
+                        data-role="removeSession"
+                    >
+                        Remove team
+                    </button>
+                </div>
+
+                <section class="card" data-role="inputs" data-section="inputs">
+                    <div class="section-head">
+                        <h2>Team stats</h2>
+                        <button
+                            class="btn ghost"
+                            type="button"
+                            data-role="sectionToggle"
+                            data-target="inputs"
+                            aria-expanded="true"
+                        >
+                            Collapse
+                        </button>
+                    </div>
+                    <div class="section-body">
+                        <div class="meta-lines">
+                            <div class="muted small" data-role="rankingsDate">
+                                Rankings data as of: --
+                            </div>
+                            <div class="muted small" data-role="baselineSync">
+                                Baseline: --
+                            </div>
                         </div>
-                    </label>
-                    <label>Current Schedule Strength
-                        <input type="number" data-role="currentSchedule" value="" step="0.01" inputmode="decimal" />
-                    </label>
-                    <label>Current Number of Games
-                        <input type="number" data-role="currentGames" value="" step="1" inputmode="numeric" />
-                    </label>
+                        <details class="math-import">
+                            <summary>Import this team’s Rating Math</summary>
+                            <p>
+                                Copy the complete Rating Math table, including
+                                its headings and Totals row. Confirm it belongs
+                                to the selected team.
+                            </p>
+                            <textarea
+                                data-role="mathText"
+                                rows="4"
+                                aria-label="Rating Math table"
+                            ></textarea>
+                            <label
+                                >Or choose a Math table saved with the updated
+                                collection bookmark<input
+                                    type="file"
+                                    data-role="mathFile"
+                                    accept=".json"
+                            /></label>
+                            <button
+                                type="button"
+                                class="btn"
+                                data-role="applyMath"
+                            >
+                                Apply Math totals to this team
+                            </button>
+                            <p data-role="mathMessage" role="status"></p>
+                        </details>
+                        <div class="grid grid-4">
+                            <label class="full-span"
+                                >Your team
+                                <div class="team-selector">
+                                    <input
+                                        type="search"
+                                        data-role="baselineTeamSearch"
+                                        class="team-search"
+                                        placeholder="Type a team name…"
+                                        autocomplete="off"
+                                    />
+                                    <select
+                                        data-role="baselineTeam"
+                                        aria-label="Choose baseline team"
+                                    >
+                                        <option value="">
+                                            Loading teams...
+                                        </option>
+                                    </select>
+                                </div>
+                            </label>
+                            <label
+                                >Published rating
+                                <input
+                                    readonly
+                                    title="Published MHR rating; calculations use the totals below"
+                                    type="number"
+                                    data-role="currentRating"
+                                    value=""
+                                    step="0.01"
+                                    inputmode="decimal"
+                                />
+                            </label>
+                            <label
+                                >Total goal differential
+                                <div class="input-inline">
+                                    <button
+                                        type="button"
+                                        data-role="toggleGoalDiffSign"
+                                        class="btn ghost"
+                                        aria-label="Toggle sign"
+                                    >
+                                        +/-
+                                    </button>
+                                    <input
+                                        data-role="currentGoalDiff"
+                                        type="text"
+                                        inputmode="decimal"
+                                        placeholder=""
+                                        value=""
+                                    />
+                                </div>
+                            </label>
+                            <label
+                                >Total opponent ratings
+                                <input
+                                    type="number"
+                                    data-role="currentSchedule"
+                                    value=""
+                                    step="0.01"
+                                    inputmode="decimal"
+                                />
+                            </label>
+                            <label
+                                >Games played
+                                <input
+                                    type="number"
+                                    data-role="currentGames"
+                                    value=""
+                                    step="1"
+                                    inputmode="numeric"
+                                />
+                            </label>
+                        </div>
+                        <p class="muted small">
+                            Use the Totals row from the team’s Rating Math
+                            page—not the rounded averages on the rankings list.
+                        </p>
                     </div>
-                    <p class="muted small">Rating = <code>(TotalGoalDiff / TotalGames) + (TotalSchedule / TotalGames)</code></p>
-                </div>
-            </section>
+                </section>
 
-            <section class="card" data-role="games" data-section="games">
-                <div class="section-head">
-                    <h2>Game Results</h2>
-                    <div class="section-actions">
-                        <button class="btn ghost" type="button" data-role="sectionToggle" data-target="games" aria-expanded="true">Collapse</button>
-                        <button data-role="addGame" class="btn" type="button">Add Game</button>
+                <section class="card" data-role="games" data-section="games">
+                    <div class="section-head">
+                        <h2>Games</h2>
+                        <div class="section-actions">
+                            <button
+                                class="btn ghost"
+                                type="button"
+                                data-role="sectionToggle"
+                                data-target="games"
+                                aria-expanded="true"
+                            >
+                                Collapse
+                            </button>
+                            <button
+                                data-role="addGame"
+                                class="btn"
+                                type="button"
+                            >
+                                + Add game
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="section-body">
-                    <div data-role="gameList" class="stack"></div>
-                </div>
-            </section>
+                    <div class="section-body">
+                        <p class="muted small">
+                            Add games not yet included in the team stats.
+                        </p>
+                        <div data-role="gameList" class="stack"></div>
+                    </div>
+                </section>
 
-            <section class="card highlight" data-role="summary" data-section="summary">
-                <div class="section-head">
-                    <h2>Updated Rating After Last Game</h2>
-                    <button class="btn ghost" type="button" data-role="sectionToggle" data-target="summary" aria-expanded="true">Collapse</button>
-                </div>
-                <div class="section-body">
-                    <div class="big-number" data-role="ratingDisplay">0.00</div>
-                    <div class="muted small" data-role="ratingDelta"></div>
-                    <div class="muted small" data-role="rankDisplay"></div>
-                </div>
+                <section
+                    class="card highlight"
+                    data-role="summary"
+                    data-section="summary"
+                >
+                    <div class="section-head">
+                        <h2>Projected rating</h2>
+                        <button
+                            class="btn ghost"
+                            type="button"
+                            data-role="sectionToggle"
+                            data-target="summary"
+                            aria-expanded="true"
+                        >
+                            Collapse
+                        </button>
+                    </div>
+                    <div class="section-body" aria-live="polite">
+                        <div class="big-number" data-role="ratingDisplay">
+                            0.00
+                        </div>
+                        <div class="muted small" data-role="ratingDelta"></div>
+                        <div class="muted small" data-role="rankDisplay"></div>
+                    </div>
+                </section>
             </section>
-        </section>
-    </template>
+        </template>
 
-    <script src="rankings-data.js"></script>
-    <script src="script.js"></script>
-</body>
+        <p>Single-page fallback: <a id="collectorLink">Save MHR table</a> (bookmark to save one table).</p>
+        <footer>
+            Saved on this device · Unofficial estimates, not published MHR
+            rankings.<br />Only add games not yet included in your baseline.
+        </footer>
+        <script src="manual-data.js"></script>
+        <script src="team-picker.js"></script>
+        <script src="script.js"></script>
+        <script src="batch-collector.js"></script>
+        <script src="manual-import.js"></script>
+    </body>
 </html>
