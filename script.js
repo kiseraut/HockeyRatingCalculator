@@ -1483,3 +1483,20 @@ setInterval(() => {
     if (teamData.ready && window.__RANKINGS_DATA__)
         updateFreshness(window.__RANKINGS_DATA__);
 }, 60000);
+
+// Keep appearance preference independent from saved teams and scenarios.
+(function () {
+    const button = document.getElementById('themeToggle');
+    const apply = () => {
+        const dark = document.documentElement.dataset.theme !== 'light';
+        button.textContent = dark ? 'Light mode' : 'Dark mode';
+        button.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+        document.querySelector('meta[name="theme-color"]').content = dark ? '#11161c' : '#f5f5f5';
+    };
+    button.addEventListener('click', () => {
+        document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+        try { localStorage.setItem('hockeyRanker.theme', document.documentElement.dataset.theme); } catch {}
+        apply();
+    });
+    apply();
+})();

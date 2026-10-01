@@ -717,3 +717,47 @@ button:disabled {
 .team-options { position:absolute; top:100%; left:0; right:0; z-index:30; max-height:280px; overflow:auto; background:#fff; border:1px solid #aeb8be; border-radius:8px; box-shadow:0 8px 20px #0002; }
 .team-options [role=option] { padding:12px; min-height:44px; cursor:pointer; }
 .team-options [role=option]:hover,.team-options [aria-selected=true] { background:#e4efeb; }
+
+/* Theme tokens also cover menus and editable/read-only fields. */
+:root {
+    --field: #f8faf9;
+    --readonly: #eef3f2;
+    --selection: #e4efeb;
+    --button-text: #fff;
+    --warning: #80430b;
+}
+:root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #11161c;
+    --panel: #1b232c;
+    --text: #e8edf2;
+    --text-dim: #aebbc8;
+    --brand: #88d6b4;
+    --brand-2: #88d6b4;
+    --danger: #ff9891;
+    --border: #394654;
+    --field: #141c24;
+    --readonly: #252f3a;
+    --selection: #29483c;
+    --button-text: #10271e;
+    --warning: #f4bf78;
+}
+:root[data-theme="light"] { color-scheme: light; }
+.highlight, .manual-import, .team-options { background: var(--panel); }
+input, select, textarea, .game { background: var(--field); color: var(--text); }
+input[readonly] { background: var(--readonly); color: var(--text-dim); }
+textarea { border-color: var(--border); }
+.btn { color: var(--button-text); }
+.btn.ghost { color: var(--text); }
+.tab.active { background: var(--brand); border-color: var(--brand); color: var(--button-text); }
+.big-number.positive { color: var(--brand); }
+.big-number.negative { color: var(--danger); }
+.data-status.stale { color: var(--warning); }
+.team-options { border-color: var(--border); touch-action: pan-y; }
+.team-options [role=option]:hover, .team-options [aria-selected=true] { background: var(--selection); }
+#themeToggle { margin-left: auto; white-space: nowrap; min-height: 44px; }
+@media (max-width: 600px) {
+    .app-header { flex-wrap: wrap; gap: 10px; }
+    .app-header h1 { font-size: 20px; }
+    .app-header .season-link { width:100%; text-align:left; display:block; }
+}

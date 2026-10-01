@@ -8,11 +8,16 @@
             content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
         <meta name="theme-color" content="#102c35" />
-        <link rel="stylesheet" href="style.css" />
+        <script>
+            try { document.documentElement.dataset.theme = localStorage.getItem('hockeyRanker.theme') === 'light' ? 'light' : 'dark'; }
+            catch { document.documentElement.dataset.theme = 'dark'; }
+        </script>
+        <link rel="stylesheet" href="style.css?v=20261001b" />
     </head>
     <body>
         <header class="app-header">
             <h1>Rating calculator</h1>
+            <button id="themeToggle" class="btn ghost" type="button">Light mode</button>
             <a
                 class="season-link"
                 href="https://myhockeyrankings.com/rank.php?y=2026&amp;v=114"
@@ -314,8 +319,8 @@
             rankings.<br />Only add games not yet included in your baseline.
         </footer>
         <script src="manual-data.js"></script>
-        <script src="team-picker.js"></script>
-        <script src="script.js"></script>
+        <script src="team-picker.js?v=20261001b"></script>
+        <script src="script.js?v=20261001b"></script>
         <script src="batch-collector.js"></script>
         <script src="manual-import.js"></script>
     </body>
