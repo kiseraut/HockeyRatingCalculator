@@ -761,3 +761,34 @@ textarea { border-color: var(--border); }
     .app-header h1 { font-size: 20px; }
     .app-header .season-link { width:100%; text-align:left; display:block; }
 }
+
+/* Daily-use flow: choose team, read result, add games. */
+.app-header { padding-top:14px; padding-bottom:10px; }
+.app-header h1 { font-size:20px; }
+.tabs-bar { margin-bottom:8px; }
+.tab { max-width:220px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.data-status { padding-top:0; padding-bottom:8px; font-size:12px; }
+.session.active { display:flex; flex-direction:column; gap:12px; max-width:800px; }
+.session > * { width:100%; }
+.team-choice label { gap:5px; font-size:13px; }
+.team-choice [hidden] { display:none; }
+.team-choice .team-search { margin:0; }
+.session .card { padding:16px; }
+.session .section-head { margin-bottom:8px; }
+.session .section-head h2 { margin:0; }
+.session .big-number { font-size:44px; line-height:1.15; margin:0; }
+[data-role=rankDisplay] { font-size:12px; margin-top:8px; padding-top:8px; }
+.baseline-details > summary { cursor:pointer; min-height:28px; color:var(--text-dim); font-size:14px; }
+.baseline-details[open] > summary { margin-bottom:16px; }
+.baseline-details .meta-lines { margin-top:12px; }
+.manual-import { max-width:744px; background:transparent; padding:12px 16px; }
+.manual-import > summary { min-height:24px; color:var(--text-dim); font-weight:400; }
+.manual-import .season-link { display:block; text-align:left; margin:12px 0; }
+.empty-state { padding:4px 0; font-size:13px; }
+@media(min-width:761px) { .tabs-bar,.data-status,.app-header { max-width:800px; } }
+@media(max-width:760px) {
+ .app-header { flex-wrap:nowrap; }
+ .session.app { padding-left:14px; padding-right:14px; padding-bottom:12px; }
+ .tabs-bar { padding-left:14px; padding-right:14px; }
+ .tab { max-width:190px; }
+}

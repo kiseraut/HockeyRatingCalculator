@@ -735,7 +735,7 @@ SessionController.prototype.renderGames = function () {
     this.els.gameList.innerHTML = "";
     if (!this.games.length)
         this.els.gameList.innerHTML =
-            '<div class="empty-state">No games added.</div>';
+            '<div class="empty-state">Add a game to see its effect.</div>';
 
     this.games.forEach((g, index) => {
         const wrapper = document.createElement("div");
@@ -1030,11 +1030,11 @@ SessionController.prototype.recalcAll = function () {
     this.els.ratingDisplay.classList.toggle("negative", isNegative);
 
     const sign = delta > 0 ? "+" : delta < 0 ? "-" : "+/-";
-    this.els.ratingDelta.textContent = `${sign}${fmt(Math.abs(delta))} vs current`;
+    this.els.ratingDelta.textContent = `${sign}${fmt(Math.abs(delta))} vs baseline ${fmt(baselineRating)}`;
     this.updateRankDisplay(finalRating, baselineRating);
     if (!hasBaseline) {
         this.els.ratingDelta.textContent =
-            "Select your team and import its Rating Math totals.";
+            "Choose a team to calculate. For custom teams, enter baseline totals.";
         this.els.rankDisplay.textContent = "";
     }
 
@@ -1125,7 +1125,7 @@ function computeRankText(finalRating, baselineRating, teamId) {
         ).length;
 
     if (teamData.coverage === "partial")
-        return `Position among imported teams: #${projectedRank} of ${rows.length + (getTeamById(teamId) ? 0 : 1)} (not a national rank)`;
+        return `Estimated position: #${projectedRank} of ${rows.length + (getTeamById(teamId) ? 0 : 1)} collected teams`;
     const team = getTeamById(teamId);
     if (!team) {
         return `Projected rank: #${projectedRank} (current rank unknown)`;
