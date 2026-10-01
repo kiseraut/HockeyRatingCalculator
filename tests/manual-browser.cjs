@@ -10,7 +10,7 @@ const assert = require("node:assert/strict");
             viewport: { width: 390, height: 844 },
         });
         await page.goto("http://127.0.0.1:4001");
-        await page.locator("#manualImport[open]").waitFor();
+        await page.locator("#manualImport").evaluate(el => el.open = true);
         await page
             .locator("#importText")
             .fill(
@@ -30,6 +30,7 @@ const assert = require("node:assert/strict");
             await page.locator("[data-role=ratingDisplay]").innerText(),
             "—",
         );
+        await page.locator(".baseline-details > summary").click();
         await page.locator(".math-import summary").click();
         await page
             .locator('[data-role="mathText"]')
@@ -43,7 +44,7 @@ const assert = require("node:assert/strict");
         );
         assert.match(
             await page.locator("[data-role=rankDisplay]").innerText(),
-            /not a national rank/,
+            /collected teams/,
         );
         await page.reload();
         assert.equal(
@@ -92,7 +93,7 @@ const assert = require("node:assert/strict");
         );
         const saved = collectedPage.waitForEvent("download");
         await collectedPage.evaluate(
-            (code) => (0, eval)(code.slice("javascript:".length)),
+            (code) => (0, eval)(decodeURIComponent(code.slice("javascript:".length))),
             bookmark,
         );
         const collection = JSON.parse(
@@ -113,3 +114,4 @@ const assert = require("node:assert/strict");
     console.error(e);
     process.exitCode = 1;
 });
+
