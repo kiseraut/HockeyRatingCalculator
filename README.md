@@ -43,7 +43,7 @@ Every failed update queues an email with its cause, last successful update/push,
 
 ## Independent missed-update check
 
-A stopped PC cannot send email. `.github/workflows/rankings-watchdog.yml` runs in GitHub every six hours and checks the hosted JSON. It alerts if data is unavailable, has the wrong season, is empty, or is over 30 hours old. This detects missed runs and data that never reached GitHub Pages. Alerts repeat each check while stale.
+A stopped PC cannot send email. `.github/workflows/rankings-watchdog.yml` runs in GitHub every six hours and checks the hosted JSON. It alerts if data is unavailable, has the wrong season, is empty, or is over 7 days old. This detects missed runs and data that never reached GitHub Pages. Alerts repeat each check while stale.
 
 To activate, push the workflow to the default branch and configure repository Actions secrets `ALERT_EMAIL` (Gmail sender and recipient) and `SMTP_PASSWORD` (preferably a separate app password). Run **Rankings freshness check** manually in GitHub Actions to test it. It is NOT active until deployed and configured. Docker secrets are not transferred automatically. Scheduled Actions can be delayed or disabled; enable GitHub workflow-failure notifications as a backup if SMTP fails.
 
@@ -63,7 +63,7 @@ docker compose logs --tail 50 rankings-updater
 
 At setup, MHR still required verification, Gmail awaited an app password, publishing was disabled, and the independent watchdog was not deployed. No new-season live dataset had been fetched successfully. Validate the entire scrape/push/email flow before relying on it.
 
-The UI rejects last-season data and warns after 30 hours without a successful check, including while an open page ages. Old scenarios remain stored separately. The former Windows task remains disabled. `updater/scrape.js` is the maintained scraper; the older backend copy is no longer the update path.
+The UI rejects last-season data and warns after 7 days without a successful check, including while an open page ages. Old scenarios remain stored separately. The former Windows task remains disabled. `updater/scrape.js` is the maintained scraper; the older backend copy is no longer the update path.
 
 ## Tests
 
@@ -83,17 +83,16 @@ Rating = (total capped goal differential + total opponent ratings) / games playe
 For the provided Pittsburgh Stars screenshot, 8 games, GD 9 and opponent ratings 732.55 yield 92.69. The displayed published rating 92.69 was correct; the former approximation caused the incorrect 92.68 projection. `artifacts/rankings-corrected.json` contains the original 730 rankings with these screenshot-sourced totals for Pittsburgh only. Other teams require their Math tables.
 
 
-## Publish a manual update to GitHub Pages
+## Weekly refresh
 
-After collecting all 200 teams, download the completed file, then run from this repository:
+1. Run the collection bookmark on MHR, choose **New collection**, finish ranks 1–200, and download the completed JSON.
+2. Double-click **Publish rankings.cmd** in this repository folder and choose the downloaded JSON file.
+3. Wait for **Uploaded successfully**. Allow a few minutes for GitHub Pages to deploy, then reload the calculator on your iPhone and check the collection date.
 
-```powershell
-node scripts/import-rankings.cjs "$env:USERPROFILE/Downloads/mhr-complete.json"
-git add rankings-data.json rankings-data.js
-git commit -m "Update 14U rankings"
-git push origin main
-```
+The publisher checks for 200 teams with Math totals, rejects incomplete or older data, updates the two data files, commits, and pushes using your existing Git login. Node.js and Git are required and already installed on this PC. If sign-in expires, use Git's normal sign-in prompt. On failure, the window shows NOT PUBLISHED and preserves your download. Resolve the displayed error and rerun.
 
-GitHub Pages rebuilds after the push. Open https://kiseraut.github.io/HockeyRatingCalculator/ on your iPhone. If that browser has a previous manual import, use **Use hosted data** under Import rankings to switch to the published dataset. Browser-local imports take precedence until cleared. Saved scenarios remain local to each browser.
+Importing inside the website only saves to that browser. To use published updates, choose **Data & import tools > Use hosted data** once on any browser with an old local import. Saved scenarios remain local.
 
-The October 1 collection contains all ranks 1–200 with actual Math totals. The St Louis rankable-games totals format is supported. Email alerts still require Gmail credentials and activation; local freshness warnings are active.
+Command-line alternative: `node scripts/publish-rankings.cjs "C:/Users/Dave/Downloads/mhr-complete.json"`.
+
+The stale warning appears after more than seven days. Email alerts still require Gmail credentials and activation.

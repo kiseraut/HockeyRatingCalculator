@@ -127,7 +127,7 @@ const assert = require("node:assert/strict");
         "—",
     );
     await page.evaluate(() => {
-        window.__RANKINGS_DATA__.scrapedAt = new Date(Date.now() - 31 * 3600000).toISOString();
+        window.__RANKINGS_DATA__.scrapedAt = new Date(Date.now() - (7 * 24 + 1) * 3600000).toISOString();
         updateFreshness(window.__RANKINGS_DATA__);
     });
     assert.match(await page.locator("#dataStatus").innerText(), /Updates overdue/);

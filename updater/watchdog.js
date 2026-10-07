@@ -9,10 +9,10 @@ function staleReason(payload, now = Date.now()) {
     const checked = Date.parse(payload.checkedAt || payload.scrapedAt);
     if (
         !Number.isFinite(checked) ||
-        now - checked > 30 * 3600000 ||
+        now - checked > 7 * 24 * 3600000 ||
         checked - now > 300000
     )
-        return `No successful published update in the last 30 hours. Last check: ${payload.checkedAt || payload.scrapedAt || "unknown"}.`;
+        return `No successful published update in the last 7 days. Last check: ${payload.checkedAt || payload.scrapedAt || "unknown"}.`;
     if (!Array.isArray(payload.teams) || !payload.teams.length)
         return "The published dataset is empty.";
     return null;

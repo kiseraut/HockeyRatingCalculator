@@ -1432,7 +1432,7 @@ function updateFreshness(payload) {
     const checked = Date.parse(payload.checkedAt || payload.scrapedAt);
     const age = Date.now() - checked;
     const stale =
-        !Number.isFinite(checked) || age > 30 * 3600000 || age < -300000;
+        !Number.isFinite(checked) || age > 7 * 24 * 3600000 || age < -300000;
     el.classList.toggle("stale", stale);
     const label =
         payload.collectionMethod === "manual" ? "Collected" : "Checked";

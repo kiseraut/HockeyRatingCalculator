@@ -84,12 +84,13 @@ test("watchdog flags old, invalid and wrong-season timestamps", () => {
         teams: [{}],
     };
     assert.equal(staleReason(data, now), null);
+    assert.equal(staleReason({ ...data, scrapedAt: new Date(now - 7 * 24 * 3600000).toISOString() }, now), null);
     assert.match(
         staleReason(
-            { ...data, scrapedAt: new Date(now - 31 * 3600000).toISOString() },
+            { ...data, scrapedAt: new Date(now - (7 * 24 + 1) * 3600000).toISOString() },
             now,
         ),
-        /30 hours/,
+        /7 days/,
     );
     assert.ok(staleReason({ ...data, source: "https://example.com" }, now));
     assert.ok(staleReason({ ...data, scrapedAt: "invalid" }, now));
