@@ -792,3 +792,9 @@ textarea { border-color: var(--border); }
  .tabs-bar { padding-left:14px; padding-right:14px; }
  .tab { max-width:190px; }
 }
+.projection-range { margin-top:10px; font-size:12px; line-height:1.6; }
+.tabs .tab { display:flex; align-items:stretch; padding:0; flex-shrink:0; }
+.tab-label,.tab-close { border:0; background:transparent; color:inherit; min-height:44px; }
+.tab-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding:10px; }
+.tab-close { flex:0 0 44px; width:44px; font-size:22px; padding:0; border-left:1px solid var(--border); }
+.tab-close:hover { background:var(--selection); }

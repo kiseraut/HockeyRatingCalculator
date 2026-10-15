@@ -1032,6 +1032,26 @@ SessionController.prototype.recalcAll = function () {
     const sign = delta > 0 ? "+" : delta < 0 ? "-" : "+/-";
     this.els.ratingDelta.textContent = `${sign}${fmt(Math.abs(delta))} vs baseline ${fmt(baselineRating)}`;
     this.updateRankDisplay(finalRating, baselineRating);
+    const range = this.root.querySelector('[data-role="projectionRange"]');
+    range.hidden = !hasBaseline || this.games.length === 0;
+    range.replaceChildren();
+    if (!range.hidden) {
+        const ready = this.games.every(g => g.sched !== "" && g.sched !== null && g.sched !== undefined && Number.isFinite(Number(g.sched)));
+        if (!ready) range.textContent = "Choose all opponents to see ranges.";
+        else {
+            const count = this.games.length;
+            const schedule = baseSched + this.games.reduce((sum,g) => sum + Number(g.sched), 0);
+            const low = computeRating(baseGD - 7 * count, schedule, baseGames + count);
+            const high = computeRating(baseGD + 7 * count, schedule, baseGames + count);
+            const ratingLine = document.createElement('div');
+            ratingLine.textContent = `Rating range: ${fmt(low)}–${fmt(high)}`;
+            const positionLine = document.createElement('div');
+            const teamId = this.els.baselineTeam?.value || CUSTOM_TEAM_ID;
+            positionLine.textContent = teamData.ready ? `Position range: #${estimatePosition(high, teamId)}–#${estimatePosition(low, teamId)}` : 'Position range unavailable';
+            range.title = 'All added games lost by 7 or won by 7; other collected teams stay unchanged.';
+            range.append(ratingLine, positionLine);
+        }
+    }
     if (!hasBaseline) {
         this.els.ratingDelta.textContent =
             "Choose a team to calculate. For custom teams, enter baseline totals.";
@@ -1087,6 +1107,11 @@ SessionController.prototype.updateRankDisplay = function (
     );
 };
 
+function estimatePosition(rating, teamId) {
+    const rounded = Number(fmt(rating));
+    return 1 + teamData.teams.filter(team => String(team.teamID ?? team.teamId ?? "") !== teamId && Number.isFinite(Number(team.rating)) && Number(team.rating) > rounded + 0.005).length;
+}
+
 function computeRankText(finalRating, baselineRating, teamId) {
     if (!teamData.ready) {
         return teamData.error
@@ -1118,11 +1143,7 @@ function computeRankText(finalRating, baselineRating, teamId) {
         });
 
     // Exclude the selected team's old entry when estimating its new position.
-    const projectedRank =
-        1 +
-        rows.filter(
-            (row) => row.id !== teamId && row.rating > finalValue + 0.005,
-        ).length;
+    const projectedRank = estimatePosition(finalRating, teamId);
 
     if (teamData.coverage === "partial")
         return `Estimated position: #${projectedRank} of ${rows.length + (getTeamById(teamId) ? 0 : 1)} collected teams`;
@@ -1282,19 +1303,30 @@ const sessionManager = {
     },
 
     createTab(id, name) {
-        const tab = document.createElement("button");
-        tab.type = "button";
+        const tab = document.createElement("div");
         tab.className = "tab";
         tab.dataset.sessionId = id;
-        tab.textContent = name || "Team Session";
-        tab.addEventListener("click", () => this.setActive(id));
+        const select = document.createElement("button");
+        select.type = "button";
+        select.className = "tab-label";
+        select.addEventListener("click", () => this.setActive(id));
+        const close = document.createElement("button");
+        close.type = "button";
+        close.className = "tab-close";
+        close.textContent = "×";
+        close.addEventListener("click", () => this.removeSession(id));
+        tab.append(select, close);
         this.tabsEl.appendChild(tab);
+        this.updateTabLabel(id, name);
     },
 
     updateTabLabel(id, label) {
         const tab = this.tabsEl.querySelector(`[data-session-id="${id}"]`);
         if (tab) {
-            tab.textContent = label || "Team Session";
+            const name = label || "Team Session";
+            tab.querySelector('.tab-label').textContent = name;
+            tab.querySelector('.tab-label').title = name;
+            tab.querySelector('.tab-close').setAttribute('aria-label', `Remove ${name}`);
         }
     },
 
@@ -1306,6 +1338,7 @@ const sessionManager = {
         });
         Array.from(this.tabsEl.querySelectorAll(".tab")).forEach((tab) => {
             tab.classList.toggle("active", tab.dataset.sessionId === id);
+            tab.querySelector(".tab-label").setAttribute("aria-pressed", String(tab.dataset.sessionId === id));
         });
         this.saveAll();
     },

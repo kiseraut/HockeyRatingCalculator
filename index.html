@@ -8,7 +8,7 @@
             try { document.documentElement.dataset.theme = localStorage.getItem('hockeyRanker.theme') === 'light' ? 'light' : 'dark'; }
             catch { document.documentElement.dataset.theme = 'dark'; }
         </script>
-        <link rel="stylesheet" href="style.css?v=20261001c">
+        <link rel="stylesheet" href="style.css?v=20261015a">
     </head>
     <body>
         <header class="app-header">
@@ -95,6 +95,7 @@
                             0.00
                         </div>
                         <div class="muted small" data-role="ratingDelta"></div>
+                        <div class="projection-range muted small" data-role="projectionRange" hidden></div>
                         <div class="muted small" data-role="rankDisplay"></div>
                     </div>
                 </section><section class="card" data-role="games" data-section="games">
@@ -145,9 +146,7 @@
                             Use the Totals row from the team’s Rating Math
                             page—not the rounded averages on the rankings list.
                         </p>
-                    <button class="btn ghost" type="button" data-role="removeSession">
-                        Remove team
-                    </button><details class="math-import">
+                    <details class="math-import">
                             <summary>Import this team’s Rating Math</summary>
                             <p>
                                 Copy the complete Rating Math table, including
@@ -167,8 +166,8 @@
 
 
         <script src="manual-data.js"></script>
-        <script src="team-picker.js?v=20261001c"></script>
-        <script src="script.js?v=20261007a"></script>
+        <script src="team-picker.js?v=20261015a"></script>
+        <script src="script.js?v=20261015a"></script>
         <script src="batch-collector.js"></script>
         <script src="manual-import.js"></script>
 
