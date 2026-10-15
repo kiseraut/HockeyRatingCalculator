@@ -1041,14 +1041,17 @@ SessionController.prototype.recalcAll = function () {
         else {
             const count = this.games.length;
             const schedule = baseSched + this.games.reduce((sum,g) => sum + Number(g.sched), 0);
-            const low = computeRating(baseGD - 7 * count, schedule, baseGames + count);
-            const high = computeRating(baseGD + 7 * count, schedule, baseGames + count);
+            const completed = this.games.filter(g => typeof g.goalDiff === 'number' && Number.isFinite(g.goalDiff));
+            const fixedGD = baseGD + completed.reduce((sum, g) => sum + g.goalDiff, 0);
+            const remaining = count - completed.length;
+            const low = computeRating(fixedGD - 7 * remaining, schedule, baseGames + count);
+            const high = computeRating(fixedGD + 7 * remaining, schedule, baseGames + count);
             const ratingLine = document.createElement('div');
             ratingLine.textContent = `Rating range: ${fmt(low)}–${fmt(high)}`;
             const positionLine = document.createElement('div');
             const teamId = this.els.baselineTeam?.value || CUSTOM_TEAM_ID;
             positionLine.textContent = teamData.ready ? `Position range: #${estimatePosition(high, teamId)}–#${estimatePosition(low, teamId)}` : 'Position range unavailable';
-            range.title = 'All added games lost by 7 or won by 7; other collected teams stay unchanged.';
+            range.title = 'Entered results stay fixed; remaining games lost by 7 or won by 7. Other collected teams stay unchanged.';
             range.append(ratingLine, positionLine);
         }
     }
