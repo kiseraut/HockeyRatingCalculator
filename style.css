@@ -798,3 +798,5 @@ textarea { border-color: var(--border); }
 .tab-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding:10px; }
 .tab-close { flex:0 0 44px; width:44px; font-size:22px; padding:0; border-left:1px solid var(--border); }
 .tab-close:hover { background:var(--selection); }
+.custom-opponent-name { display:grid; gap:5px; margin-top:8px; }
+.custom-opponent-name[hidden] { display:none; }

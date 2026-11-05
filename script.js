@@ -705,6 +705,7 @@ SessionController.prototype.loadGames = function (list) {
             return {
                 id,
                 teamId: g.teamId ?? CUSTOM_TEAM_ID,
+                customTeamName: typeof g.customTeamName === "string" ? g.customTeamName : "",
                 sched: schedValue,
                 goalDiff:
                     typeof g.goalDiff === "number" &&
@@ -758,8 +759,10 @@ SessionController.prototype.renderGames = function () {
         const selTeam = document.createElement("select");
         selTeam.dataset.role = "teamSelect";
         buildTeamOptions(selTeam, g.teamId ?? "", "Select opponent");
-        const applySelection = (force = false) =>
+        const applySelection = (force = false) => {
             this.applyTeamSelectionToGame(selTeam, g, force);
+            customNameField.hidden = selTeam.value !== CUSTOM_TEAM_ID;
+        };
         selTeam.addEventListener("change", () => applySelection(true));
         selTeam.addEventListener("click", () => {
             if (selTeam.value === (selTeam.dataset.lastValue || "")) {
@@ -771,6 +774,23 @@ SessionController.prototype.renderGames = function () {
         teamWrapper.appendChild(selTeam);
         attachTeamSearch(selTeam, searchInput, 'Select opponent');
         lblTeam.appendChild(teamWrapper);
+        const customNameField = document.createElement("div");
+        customNameField.className = "custom-opponent-name";
+        customNameField.hidden = selTeam.value !== CUSTOM_TEAM_ID;
+        const nameCaption = document.createElement("span");
+        nameCaption.textContent = "Team name";
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.dataset.role = "customTeamName";
+        nameInput.setAttribute("aria-label", `Game ${index + 1} custom opponent team name`);
+        nameInput.placeholder = "Enter team name";
+        nameInput.value = g.customTeamName || "";
+        nameInput.addEventListener("input", () => {
+            g.customTeamName = nameInput.value;
+            this.manager.saveAll();
+        });
+        customNameField.append(nameCaption, nameInput);
+        lblTeam.appendChild(customNameField);
 
         // Opp. Rating input
         const lblSch = document.createElement("label");
